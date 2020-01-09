@@ -1,0 +1,21 @@
+{
+  "name": "fitgoalsjsapp",
+  "version": "0.0.1",
+  "description": "fitness web app using fitbit api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
+  },
+  "author": "Jobe George",
+  "license": "MIT",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "ejs": "^3.0.1",
+    "express": "^4.17.1",
+    "hbs": "^4.0.6",
+    "html": "^1.0.0",
+    "morgan": "^1.9.1",
+    "path": "^0.12.7"
+  }
+}
