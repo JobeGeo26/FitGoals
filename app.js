@@ -3,8 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-var index = require("./routes/index");
-var about = require("./routes/about");
+var indexRouter = require("./routes/index");
+
+
+
 
 
 var app = express();
@@ -14,8 +16,7 @@ app.set("views",path.join(__dirname,"views"));
 app.set('view engine', 'hbs');
 
 
-app.use("/",index);
-app.use("/about",about);
+app.use("/",indexRouter);
 
 app.use(logger('dev'));
 app.use(express.json());

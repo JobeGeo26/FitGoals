@@ -1,0 +1,49 @@
+.navbar-nav {
+    font-size: 26px;
+    color: #fff;
+}
+.navbar {
+    max-height: 70px;
+  }
+
+.navbar-brand {
+    font-family:'Oswald',sans-serif;
+    padding-right: 15px;
+    font-size: 26px;
+}
+
+.navbar-nav li{
+    font-family:'Oswald',sans-serif;
+    padding-left: 15px;
+    padding-right: 15px;
+
+}
+
+
+.btn{
+    font-family:'Oswald',sans-serif;
+    margin-bottom: 5px;
+    height: 225px;
+    width: 350px;
+    border-radius: 15px;
+}
+
+.btn-outline-warning:hover{
+    color: white!important;
+}
+/*
+.btn-outline-success{
+    border-color:rgb(50, 175, 133);
+    color: rgb(50, 175, 133) ;
+
+}
+
+.btn-outline-success:hover{
+    background-color: rgb(50, 175, 133)!important;
+    
+
+}
+
+*/
+
+
