@@ -10,6 +10,7 @@ var indexRouter = require("./routes/index");
 
 
 var app = express();
+app.use(cookieParser());
 
 app.set("port", process.env.PORT || 3000);
 app.set("views",path.join(__dirname,"views"));
@@ -21,11 +22,11 @@ app.use("/",indexRouter);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.listen(app.get("port"),function(req,res){
-    console.log("Server started on port" +app.get("port"));
-});
+    console.log("Server started on port: " +app.get("port"));
 
+
+});

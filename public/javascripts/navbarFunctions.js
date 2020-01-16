@@ -1,5 +1,6 @@
 
 $(document).ready(function(){
+    var access_token="";
     $(function(){
         var current = location.pathname;
         $('.navbar-nav li a').each(function(){
@@ -9,6 +10,12 @@ $(document).ready(function(){
                 $this.addClass('active');
                 
             }
-        })
-    })
+        });
+    });
+
+
+
+
+
+
 });
