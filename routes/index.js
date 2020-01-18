@@ -34,9 +34,6 @@ router.get("/about", function(req,res){
 
 router.get("/home", function(req,res){
 
-    const accessToken =req.query.access_token;
-    console.log("Access token:"+ accessToken);
-
     res.render("home",{title:"FitGoals Home",layout: "appLayout.hbs"});
 
 });

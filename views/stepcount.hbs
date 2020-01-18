@@ -1,3 +1,31 @@
-<div class="container" style = "position:absolute; left:80px; top:80px;">
-        <h1>step world!</h1>
+<script src="../javascripts/stepcount.js"></script>
+<link rel="stylesheet" type="text/css" href="../stylesheets/hrandstepcommon.css"/>
+<div class="container text-center">
+        <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Weekly Step Count Breakdown&nbsp;<i class="fas fa-chart-line" style='font-size:80px; color: yellow;'></i></h1 class="">
+</div>
+<div class="container" style="padding-bottom: 50px;">
+
+        <canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="stepcount" width="1000vw" height="450vh"></canvas>
+</div>
+<div class="container" style="padding-bottom: 1px;">
+<h2 id="progressStatus"></h2>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" id="red" style="">
+    Long Way to go!
+  </div>
+  <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" id="yellow" style="">
+    Getting there!
+  </div>
+  <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" id="green" style="">
+    Almost there!
+  </div>
+</div>
+</div>
+<div class="container text-right" style="padding-bottom: 5px;">
+        <h4 style="color: rgb(13, 189, 13);" id="goal"></h4>
+</div>
+<div class="container text-center">
+        <h2>Today's Step Counter:</h2>
+        <h2 id="stepcounter" style="padding-bottom: 5px;"></h2>
+         <i class="fas fa-shoe-prints" style='font-size:50px; color: yellow;'></i>
 </div>
