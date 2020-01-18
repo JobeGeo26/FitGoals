@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var access_token = getCookie("token");
     var currentStepcount = 0;
+    
  function getStepCountData(){
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -82,14 +83,15 @@ function getStepProgress(){
     xhr.onload = function () {
         if (xhr.status === 200) {
             const data = xhr.response;
-            console.log(data);
             const stepgoals= data.goals.steps;
             let progress = (currentStepcount/stepgoals) *100;
             document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: "+ progress+"%";
             document.getElementById("goal").textContent =  stepgoals+" steps";
-           console.log(progress);
            moveProgressBar(progress);
            
+        }
+        else{
+            console.log("Status:"+xhr.status);
         }
     };
     xhr.send();
