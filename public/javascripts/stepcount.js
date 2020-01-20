@@ -84,7 +84,8 @@ function getStepProgress(){
         if (xhr.status === 200) {
             const data = xhr.response;
             const stepgoals= data.goals.steps;
-            let progress = (currentStepcount/stepgoals) *100;
+            console.log(currentStepcount);
+            let progress = ((currentStepcount/stepgoals) *100).toFixed(2);
             document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: "+ progress+"%";
             document.getElementById("goal").textContent =  stepgoals+" steps";
            moveProgressBar(progress);
