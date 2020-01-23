@@ -46,7 +46,7 @@
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
-      <th scope="col">Start Date</th>
+      <th scope="col">Start Date(dd-mm-yyyy)</th>
       <th scope="col">Start Weight</th>
       <th scope="col">Goal Weight</th>
       <th scope="col">Manage</th>
@@ -60,9 +60,59 @@
       <td><input type="submit" value="Edit" class="editWeight"><input type="submit" disabled="true" value="Save" class="saveWeight"></td>
     </tr>
     
-    
   </tbody>
 </table>
 
 
+</div>
+
+<div class="container text-center">
+<h2 class="text-left">Weight Logs&nbsp;<i class="fas fa-pen" style='font-size:50px; color:yellow;'></i></h2>
+<table class="table table-striped table-bordered" id="weightlog">
+<thead class="thead-dark">
+    <tr>
+      <th scope="col">Date(dd-mm-yyyy)</th>
+      <th scope="col"> Time</th>
+      <th scope="col"> Weight</th>
+      <th scope="col">BMI</th>
+      <th scope="col" align="right">Manage</th>
+    </tr>
+  </thead>
+    <tbody>
+    
+  </tbody>
+</table>
+</div>
+
+<div class="container" style="padding-bottom: 30px;">
+<h2 class="text-left">Create Weight Log&nbsp;<i class="fas fa-pen" style='font-size:50px; color:yellow; padding-bottom:10px;'></i></h2>
+  
+   Date(dd-mm-yyyy):
+  <input type="text" name="weightdate" class="logtextDate">
+   Weight(kg):
+  <input type="text" name="weight" class="logtext">
+  <input type="submit" value="submit" class="submitLog">
+
+
+</div>
+
+<div class="container" style="padding-bottom: 1px;">
+<h2 id="progressStatus"></h2>
+<div class="progress">
+  <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated" role="progressbar" id="red" style="">
+    Long Way to go!
+  </div>
+  <div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" id="yellow" style="">
+    Getting there!
+  </div>
+  <div class="progress-bar progress-bar-striped bg-success progress-bar-animated" role="progressbar" id="green" style="">
+    Almost there!
+  </div>
+</div>
+</div>
+<div class="container" style="padding-bottom: 5px;">
+  <div class="row justify-content-between">
+     <h4 style="color: red;" id="start"></h4>
+        <h4 style="color: rgb(13, 189, 13);" id="goal"></h4>
+    </div>
 </div>
