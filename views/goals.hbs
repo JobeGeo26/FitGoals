@@ -1,8 +1,8 @@
 
 <script src="../javascripts/goals.js"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/common.css"/>
-<div class="container text-center" style="padding-bottom: 50px;">
-        <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Manage Your Goals&nbsp;<i class="fas fa-bullseye" style='font-size:80px; color: green;'></i></h1 class="">
+<div class="container text-center" style="padding-bottom: 20px;">
+        <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Manage Your Goals&nbsp;<i class="fas fa-bullseye" style='font-size:80px; color: green;'></i></h1>
 </div>
 <div class="container text-center">
 <h2 class="text-left">Daily Activity Goals&nbsp;<i class="fas fa-running" style='font-size:50px; color:green;'></i></h2>
@@ -47,8 +47,8 @@
   <thead class="thead-dark">
     <tr>
       <th scope="col">Start Date(dd-mm-yyyy)</th>
-      <th scope="col">Start Weight</th>
-      <th scope="col">Goal Weight</th>
+      <th scope="col">Start Weight(kg)</th>
+      <th scope="col">Goal Weight(kg)</th>
       <th scope="col">Manage</th>
     </tr>
   </thead>
@@ -73,7 +73,7 @@
     <tr>
       <th scope="col">Date(dd-mm-yyyy)</th>
       <th scope="col"> Time</th>
-      <th scope="col"> Weight</th>
+      <th scope="col"> Weight(kg)</th>
       <th scope="col">BMI</th>
       <th scope="col" align="right">Manage</th>
     </tr>
@@ -110,9 +110,34 @@
   </div>
 </div>
 </div>
-<div class="container" style="padding-bottom: 5px;">
+<div class="container" style="padding-bottom: 20px;">
   <div class="row justify-content-between">
      <h4 style="color: red;" id="start"></h4>
         <h4 style="color: rgb(13, 189, 13);" id="goal"></h4>
     </div>
+</div>
+
+<div class="container text-center">
+<h2 class="text-left">Daily Food Goals(Based on daily acitivity)&nbsp;<i class="fas fa-utensils" style='font-size:50px; color:red;'></i></h2>
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Calories In(kCal)</th>
+      <th scope="col">Food Plan Intensity Code</th>
+      <th scope="col">Estimated End date</th>
+      <th scope="col">Manage</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td id="foodCals" class="foodEditable"></td>
+      <td id="intensity" class="foodEditableList"></td>
+      <td id="endDate" class="foodEditable"></td>
+      <td><input type="submit" value="Edit" class="editFood"><input type="submit" disabled="true" value="Save" class="saveFood"></td>
+    </tr>
+    
+  </tbody>
+</table>
+
+
 </div>

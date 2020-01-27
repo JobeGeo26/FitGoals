@@ -1,3 +1,71 @@
-<div class="container" style = "position:absolute; left:80px; top:80px;">
-        <h1>profile world!</h1>
+<script src="../javascripts/profile.js"></script>
+<link rel="stylesheet" type="text/css" href="../stylesheets/common.css"/>
+
+<div class="container text-center" style="padding-bottom: 20px; padding-top: 10px;">
+        <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Profile Manager&nbsp;<i class="fas fa-user" style='font-size:70px; color: rgb(26, 197, 26);'></i></h1>
+</div>
+<div class="container" style="padding-bottom: 20px;">
+<div class="row">
+    <div class="col" id="main-content">
+
+        <div class="card user-card">
+            <div class="card-body">
+                <div class="media">
+                    <img id="profpic" class="img-thumbnail rounded-circle">
+                    <div class="media-body ml-3 pt-4">
+                        <h3 id="username"></h3>
+                        <div id="full-name"></div>
+                        <div id="age" class="small text-muted"></div>
+                        <div class="small text-muted" id="joinDate"></div>
+                    </div>
+                </div>
+                <hr>
+                
+                <form>
+                    <div class="form-row">
+                        <div class="form-group col-sm-6">
+                            <label for="profileFirstName">First Name</label>
+                            <input type="text" class="form-control" id="profileFirstName">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="profileLastName">Last Name</label>
+                            <input type="text" class="form-control" id="profileLastName">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="profileEmail">Gender</label>
+                            <select class="form-control" id="profileGender">
+                                    <option>MALE</option>
+                                    <option>FEMALE</option>
+                                    <option>N/A</option>
+                            </select>
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="profilePhone">Date Of Birth</label>
+                            <input type="text" class="form-control" id="profiledob">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="profilePassword">Height(cm)</label>
+                            <input type="number" class="form-control" id="profileHeight">
+                        </div>
+                        <div class="form-group col-sm-6">
+                            <label for="profileConfirmPassword">Weight(kg)</label>
+                            <input type="number" class="form-control" id="profileWeight">
+                        </div>
+                         <div class="form-group col-sm-6">
+                            <label for="profileConfirmPassword">Start Day of Week</label>
+                            <select class="form-control" id="startDay">
+                                    <option>SUNDAY</option>
+                                    <option>MONDAY</option>
+                            </select>
+                        </div>
+                        <div id="passError" class="error col-sm-12"></div>
+                        <div class="form-group col-12">
+                            <button  type="button" class=" btn-success" id="saveBtn">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

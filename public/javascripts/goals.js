@@ -15,6 +15,7 @@ function getDailyActivityGoals(){
     xhr.onload = function () {
         if (xhr.status === 200) {
             const data = xhr.response;
+            console.log(data);
             const steps = data.goals.steps;
             const calOutval = data.goals.caloriesOut;
             const activeMinutes = data.goals.activeMinutes;
@@ -49,6 +50,30 @@ function getWeightGoals(){
             currentWeightGoal = data.goal.weight;
             startWeight = data.goal.startWeight;
            
+        }
+        else{
+            console.log("Status:"+xhr.status);
+        }
+    };
+    xhr.send();
+
+
+}
+
+function getFoodGoals(){
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.open('GET', 'https://api.fitbit.com/1/user/-/foods/log/goal.json');
+    xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            const data = xhr.response;
+            console.log(data);
+            document.getElementById("foodCals").textContent = data.goals.calories+ " kcal";
+            document.getElementById("intensity").textContent = data.foodPlan.intensity;
+            document.getElementById("endDate").textContent = formatDate(data.foodPlan.estimatedDate);
+
+            
         }
         else{
             console.log("Status:"+xhr.status);
@@ -110,7 +135,7 @@ function getWeightLogs(){
                  var timeText  = document.createTextNode(data.weight[i].time);
                  time.appendChild(timeText);
                  var weight  = newRow.insertCell(2);
-                 var weightText  = document.createTextNode(data.weight[i].weight);
+                 var weightText  = document.createTextNode(data.weight[i].weight+" kg");
                  weight.appendChild(weightText);
                  var bmi  = newRow.insertCell(3);
                  var bmiText  = document.createTextNode(data.weight[i].bmi);
@@ -142,6 +167,7 @@ function getWeightLogs(){
     setTimeout(function(){
 getWeightProgress();
     },1000);
+    getFoodGoals();
     
 
 }
@@ -169,6 +195,49 @@ setTimeout(function(){
 
 
 }
+
+$('.editFood').click(function () {
+    $(this).prop('disabled', true);
+    $(this).parents('td').find('.saveFood').prop('disabled', false);
+
+    $(this).parents('tr').find('td.foodEditableList').each(function() {
+      var html = $(this).html();
+      var numbers = html.split(" ");
+      var input = $('<select id="myList"><option class="editableColumnsFoodStyle" >EASIER</option><option class="editableColumnsFoodStyle" >MEDIUM</option><option class="editableColumnsFoodStyle" >KINDAHARD</option><option class="editableColumnsFoodStyle" >HARDER</option></select>');
+      input.val(numbers[0]);
+      $(this).html(input);
+    });
+  });
+
+  $('.saveFood').click(function () {
+    var myList = document.getElementById('myList');
+    var html =myList.options[myList.selectedIndex].text;
+    console.log("saveFood:"+html);
+    
+        var xhr = new XMLHttpRequest();
+        xhr.responseType= 'json';
+        var param = 'intensity='+html;
+        xhr.open('POST', 'https://api.fitbit.com/1/user/-/foods/log/goal.json?'+param);
+        xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
+       xhr.onload = function () {
+    if (xhr.status === 200) {
+        const data = xhr.response;
+        console.log(data);
+       
+    }
+    else{
+        console.log("Status:"+xhr.status);
+    }
+};
+xhr.send();
+$(this).prop('disabled', true);
+$(this).parents('td').find('.editFood').prop('disabled', false);
+setTimeout(function(){
+    getFoodGoals();
+},1000);
+
+
+});
 
 $('.editActivity').click(function () {
     $(this).prop('disabled', true);
@@ -405,16 +474,15 @@ function getWeightProgress(){
 
     let target = currentWeightGoal - startWeight;
     console.log("target:"+target);
-    let remaining = Math.abs(currentWeightGoal - currentWeight);
+    let remaining = currentWeightGoal - currentWeight;
     let prog = (((currentWeightGoal - currentWeight)/target)*100).toFixed(2);
     let progress = 100 - prog;
     console.log(progress);
 
-    document.getElementById("progressStatus").textContent = "Weight Goal Progress: "+ remaining+" kg remaining";
     document.getElementById("start").textContent =  startWeight+" kg";
     document.getElementById("goal").textContent =  currentWeightGoal+" kg";
     if(currentWeight ===0){
-        document.getElementById("progressStatus").textContent ="N/A please create a weight log for progress";
+        document.getElementById("progressStatus").textContent ="N/A please ensure a weight log and goal exists for progress";
         document.getElementById("red").setAttribute("style","width:0%");
         document.getElementById("yellow").setAttribute("style","width:0%");
         document.getElementById("green").setAttribute("style","width:0%");
@@ -423,7 +491,7 @@ function getWeightProgress(){
     }
     
     if(target <0 && currentWeight !=0){
-        document.getElementById("progressStatus").textContent = " Current Weight Loss Progress: "+currentWeight+" kg(Lose "+remaining+" kg)";
+        document.getElementById("progressStatus").textContent = " Current Weight Loss Progress: "+currentWeight+" kg(Lose "+Math.abs(remaining)+" kg)";
         if(progress <=34){
             document.getElementById("red").setAttribute("style","width:"+progress+"%");
         }
@@ -440,7 +508,15 @@ function getWeightProgress(){
             document.getElementById("yellow").setAttribute("style","width:41%");
             document.getElementById("green").setAttribute("style","width:"+remainder+"%");
             }
-            else{
+            if(remaining >0){
+                document.getElementById("progressStatus").textContent = "You have exceeded your goal! Current weight: "+currentWeight+" kg("+Math.abs(remaining)+" kg less)";
+                document.getElementById("red").setAttribute("style","width:34%");
+                document.getElementById("yellow").setAttribute("style","width:41%");
+                document.getElementById("green").setAttribute("style","width:25%");
+                }
+
+            if(remaining ===0){
+                document.getElementById("progressStatus").textContent = "Congratulations! You have reached your goal of "+currentWeightGoal+" kg!";
             document.getElementById("red").setAttribute("style","width:34%");
             document.getElementById("yellow").setAttribute("style","width:41%");
             document.getElementById("green").setAttribute("style","width:25%");
@@ -450,7 +526,7 @@ function getWeightProgress(){
         }
     }
     if(target >0 && currentWeight !=0){
-        document.getElementById("progressStatus").textContent = " Current Weight Gain Progress: "+currentWeight+" kg(Gain "+remaining+" kg)";
+        document.getElementById("progressStatus").textContent = " Current Weight Gain Progress: "+currentWeight+" kg(Gain "+Math.abs(remaining)+" kg)";
         if(progress <=34){
             document.getElementById("red").setAttribute("style","width:"+progress+"%");
         }
@@ -467,7 +543,14 @@ function getWeightProgress(){
             document.getElementById("yellow").setAttribute("style","width:41%");
             document.getElementById("green").setAttribute("style","width:"+remainder+"%");
             }
-            else{
+            if(remaining <0){
+            document.getElementById("progressStatus").textContent = "You have exceeded your goal! Current weight: "+currentWeight+" kg("+Math.abs(remaining)+" kg more)";
+            document.getElementById("red").setAttribute("style","width:34%");
+            document.getElementById("yellow").setAttribute("style","width:41%");
+            document.getElementById("green").setAttribute("style","width:25%");
+            }
+            if(remaining ===0){
+            document.getElementById("progressStatus").textContent = "Congratulations! You have reached your goal of "+currentWeightGoal+" kg!";
             document.getElementById("red").setAttribute("style","width:34%");
             document.getElementById("yellow").setAttribute("style","width:41%");
             document.getElementById("green").setAttribute("style","width:25%");
@@ -486,6 +569,7 @@ function getWeightProgress(){
 getDailyActivityGoals();
 getWeightGoals();
 getWeightLogs();
+getFoodGoals();
 setTimeout(function(){
 
     getWeightProgress();
