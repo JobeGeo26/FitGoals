@@ -39,6 +39,42 @@ xhr.send();
 
 }
 
+function getLifeTimeStats(){
+    
+    var xhr = new XMLHttpRequest();
+    xhr.responseType= 'json';
+    xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities.json');
+    xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
+   xhr.onload = function () {
+if (xhr.status === 200) {
+    const data = xhr.response;
+    console.log(data);
+    let best = data.best.total;
+    let life = data.lifetime.total;
+                    if(best.length === 0){
+                       
+    
+                    }
+                    if(best.length !== 0){
+                   document.getElementById("bestDist").textContent = (best.distance.value).toFixed(2)+" km on " +formatDate(best.distance.date);
+                   document.getElementById("bestFloors").textContent = (best.floors.value).toFixed(0)+" floors on " +formatDate(best.floors.date);
+                   document.getElementById("bestSteps").textContent = (best.steps.value).toFixed(0)+" steps on " +formatDate(best.steps.date);
+                  if(life.length === 0){
+                  }
+                  if(life.length !== 0){
+                   document.getElementById("lifeDist").textContent = (life.distance).toFixed(2)+" km";
+                   document.getElementById("lifeFloors").textContent = (life.floors).toFixed(0)+" floors";
+                   document.getElementById("lifeSteps").textContent = (life.steps).toFixed(0)+" steps";
+                  }
+}
+}
+else{
+    console.log("Status:"+xhr.status);
+}
+};
+xhr.send();
+}
+
 $("#saveBtn").click(function(){
     let fname = $("#profileFirstName").val();
     let sname = $("#profileLastName").val();
@@ -77,6 +113,7 @@ setTimeout(function(){
 });
 
 getProfile();
+getLifeTimeStats();
 
 });
 

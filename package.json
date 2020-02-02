@@ -15,7 +15,9 @@
     "express": "^4.17.1",
     "hbs": "^4.0.6",
     "html": "^1.0.0",
+    "jquery-editable-select": "^2.2.5",
     "morgan": "^1.9.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "tail.select": "^0.5.15"
   }
 }
