@@ -7,6 +7,20 @@ $(document).ready(function(){
     var currentWeightGoal = 0;
     var startWeight = 0;
 
+
+    var time = document.getElementsByClassName('colon'); //Get all elements with class "time"
+    for (var i = 0; i < time.length; i++) { //Loop trough elements
+        
+        time[i].addEventListener('keyup', function (e) {; //Add event listener to every element
+            var reg = /[0-9]/;
+            if ((this.value.length == 2 || this.value.length == 5 )&& reg.test(this.value)) this.value = this.value + "-"; //Add colon if string length > 2 and string is a number 
+            if (this.value.length > 10) this.value = this.value.substr(0, this.value.length - 1); //Delete the last digit if string length > 5
+        });
+    
+    
+    };
+   
+
 function getDailyActivityGoals(){
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -71,7 +85,9 @@ function getFoodGoals(){
             console.log(data);
             document.getElementById("foodCals").textContent = data.goals.calories+ " kcal";
             document.getElementById("intensity").textContent = data.foodPlan.intensity;
+            if(data.foodPlan.estimatedDate != undefined){
             document.getElementById("endDate").textContent = formatDate(data.foodPlan.estimatedDate);
+            }
 
             
         }
@@ -199,6 +215,7 @@ setTimeout(function(){
 $('.editFood').click(function () {
     $(this).prop('disabled', true);
     $(this).parents('td').find('.saveFood').prop('disabled', false);
+    if(currentWeightGoal - currentWeight <0){
 
     $(this).parents('tr').find('td.foodEditableList').each(function() {
       var html = $(this).html();
@@ -207,9 +224,22 @@ $('.editFood').click(function () {
       input.val(numbers[0]);
       $(this).html(input);
     });
+}
+else{
+    $(this).parents('tr').find('td.foodEditableList').each(function() {
+        var html = $(this).html();
+        var numbers = html.split(" ");
+        var input = $('<select id="myList"><option class="editableColumnsFoodStyle" >MAINTENANCE</option></select>');
+        input.val(numbers[0]);
+        $(this).html(input);
+      });
+
+}
+    
   });
 
   $('.saveFood').click(function () {
+      
     var myList = document.getElementById('myList');
     var html =myList.options[myList.selectedIndex].text;
     console.log("saveFood:"+html);

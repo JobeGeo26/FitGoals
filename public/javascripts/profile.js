@@ -1,5 +1,18 @@
 $(document).ready(function(){
     var access_token = getCookie("token");
+
+    var time = document.getElementsByClassName('colon'); //Get all elements with class "time"
+    for (var i = 0; i < time.length; i++) { //Loop trough elements
+        
+        time[i].addEventListener('keyup', function (e) {; //Add event listener to every element
+            var reg = /[0-9]/;
+            if ((this.value.length == 2 || this.value.length == 5 )&& reg.test(this.value)) this.value = this.value + "-"; //Add colon if string length > 2 and string is a number 
+            if (this.value.length > 10) this.value = this.value.substr(0, this.value.length - 1); //Delete the last digit if string length > 5
+        });
+    
+    
+    };
+
 function getProfile(){
     var xhr = new XMLHttpRequest();
     xhr.responseType= 'json';

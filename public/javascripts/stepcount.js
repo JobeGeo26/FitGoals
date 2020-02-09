@@ -38,7 +38,7 @@ async function createLineChart( xlabels, ylabels,title ){
     await ylabels;
     var ctx = document.getElementById('stepcount').getContext('2d');
 var myChart = new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
         labels: xlabels,
         datasets: [{

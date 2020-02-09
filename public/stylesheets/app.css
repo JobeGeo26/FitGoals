@@ -25,10 +25,13 @@
     margin-bottom: 5px;
     height: 225px;
     width: 350px;
-    border-radius: 15px;
+    border-radius: 25px;
 }
 
 .btn-outline-warning:hover{
+    color: white!important;
+}
+.btn-warning{
     color: white!important;
 }
 
