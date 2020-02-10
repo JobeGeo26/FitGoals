@@ -1,4 +1,7 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/common.css"/>
@@ -57,14 +60,14 @@
                         
                         <div class="form-group col-sm-6">
                             <label >Select Food *</label>
-                            <select class="form-control" id="logFood">
+                            <select class="form-control" id="logFood" name="logFood">
                              
                                     
                             </select>
                         </div>
                         <div class="form-group col-sm-6">
                             <label>Meal Type * </label>
-                            <select class="form-control" id="logType">
+                            <select class="form-control" id="logType" name="logType">
                                     <option value="1">Breakfast</option>
                                     <option value="2">Morning Snack</option>
                                     <option value="3">Lunch</option>
@@ -77,11 +80,11 @@
                         </div>
                         <div class="form-group col-sm-6">
                             <label> Amount *</label>
-                            <input type="text" class="form-control" id="logAmount">
+                            <input type="number" class="form-control" id="logAmount" name="logAmount">
                         </div>
                         <div class="form-group col-sm-6">
                             <label >Units *</label>
-                            <select class="form-control" id="logUnit">
+                            <select class="form-control" id="logUnit" name="logUnit">
                              
 
                             </select>
@@ -107,7 +110,7 @@
                        </div>
                         <div class="form-group col-sm-2">
                         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#createFoods">
-                       Create New</button>
+                       Create Food</button>
                        </div>
                         <div class="form-group col-2.5">
                           <label>Required fields *</label>
@@ -224,7 +227,7 @@
                         
                         <div class="form-group col-sm-6">
                             <label >Create Food *</label>
-                            <input class="form-control" id="newName" type="text">
+                            <input class="form-control" id="newName" name="newName" type="text">
                        
                         </div>
                         <div class="form-group col-sm-6">
@@ -233,11 +236,11 @@
                         </div>
                         <div class="form-group col-sm-6">
                             <label> Default serving size *</label>
-                            <input type="text" class="form-control" id="newAmount">
+                            <input type="text" class="form-control" id="newAmount" name="newAmount">
                         </div>
                         <div class="form-group col-sm-6">
                             <label >Default Unit *</label>
-                            <input class="form-control" id="newUnit" type="text" list="unitList">
+                            <input class="form-control" id="newUnit" type="text" list="unitList" name="newUnit">
                             <datalist id="unitList">
                               
                             </datalist>
@@ -247,22 +250,22 @@
                         </div>
                         <div class="form-group col-sm-6">
                             <label>Calories(Default size) *</label>
-                            <input type="number" class="form-control" id="newCals">
+                            <input type="number" class="form-control" id="newCals" name="newCals">
                             
                         </div>
                         <div class="form-group col-sm-6">
                             <label>Carbohydrates(grams) *</label>
-                            <input type="number" class="form-control" id="newCarbs">
+                            <input type="number" class="form-control" id="newCarbs" name="newCarbs">
                             
                         </div>
                         <div class="form-group col-sm-6">
                             <label>Fats(grams) *</label>
-                            <input type="number" class="form-control" id="newFats">
+                            <input type="number" class="form-control" id="newFats" name="newFats">
                             
                         </div>
                         <div class="form-group col-sm-6">
                             <label>Fiber(grams) *</label>
-                            <input type="number" class="form-control" id="newFiber">
+                            <input type="number" class="form-control" id="newFiber" name="newFiber">
                             
                         </div>
                         <div class="form-row">
@@ -271,7 +274,7 @@
                             <label >Protein(grams) *</h3>
                             <div class="form-row">
                               <div class="form-group col-sm-9">
-                             <input  type="number" class="form-control" id="newProtein" >
+                             <input  type="number" class="form-control" id="newProtein" name="newProtein">
                             
                             </div>
                         

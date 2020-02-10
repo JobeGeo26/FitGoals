@@ -783,7 +783,8 @@ xhr.send();
     $("#createForm").validate({
         rules: {
             newActivity:{
-                required: true
+                required: true,
+                minlength: 3
 
             } ,
             newStartTime:{
@@ -802,7 +803,8 @@ xhr.send();
         },
         messages: {
             newActivity:{
-                required: "Please specify an activity"
+                required: "Please specify an activity",
+                minlength: "Name must be atleast 3 characters"
 
             } ,
             newStartTime:{

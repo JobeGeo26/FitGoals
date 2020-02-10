@@ -13,6 +13,117 @@ $(document).ready(function(){
     
     };
 
+    $.validator.setDefaults({
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+           
+            $(element)
+              .closest('.form-control')
+              .addClass('is-invalid');
+              //console.log(element.next())
+
+           
+          },
+          unhighlight: function(element) {
+           
+            $(element)
+              .closest('.form-control')
+              .removeClass('is-invalid')
+            
+              
+            
+          },
+        
+        errorPlacement: function (error, element) {
+         
+            error.insertAfter(element);
+          
+        }
+      });
+    $.validator.addMethod('checkDOB', function(value, element) {
+        var reg = /[0-9]/;
+        var regex  = /[-]/;
+        var reg1 = /[0-3]/;
+        var reg2 = /[0-1]/;
+        return this.optional(element) 
+        || value.length === 10
+        && reg1.test(value.charAt(0))
+        && reg.test(value.charAt(1))
+        && regex.test(value.charAt(2))
+        && reg2.test(value.charAt(3))
+        && reg.test(value.charAt(4))
+        && regex.test(value.charAt(5))
+        && reg.test(value.charAt(6))
+        && reg.test(value.charAt(7)) 
+        && reg.test(value.charAt(8))
+        && reg.test(value.charAt(9)) ;
+      }, 'Please provide date of birth in DD-MM-YYYY format');
+
+
+    $("#userForm").validate({
+        rules: {
+            profileFirstName:{
+                required: true,
+                minlength: 3,
+
+            } ,
+            profileLastName:{
+                required:true,
+                minlength: 3,
+               
+
+            },
+            profiledob:{
+                required:true,
+                checkDOB: true,
+                
+
+            },
+            profileHeight:{
+                required:true,
+                
+
+            },
+            profileWeight:{
+                required:true,
+                
+
+            },
+
+            
+        },
+        messages: {
+            profileFirstName:{
+                required: "Please specify first name",
+                minlength: "first name must be atleast 3 characters"
+
+            } ,
+            profileLastName:{
+                required:"Please specify surname",
+                minlength: "surname must be atleast 3 characters"
+               
+
+            },
+            profiledob:{
+                required:"Please specify date of birth",
+                
+
+            },
+            profileHeight:{
+                required:"Please specify height in cm",
+                
+
+            },
+            profileWeight:{
+                required:"Please specify weight in kgs",
+                
+
+            },
+           
+           
+        }
+    });
+
 function getProfile(){
     var xhr = new XMLHttpRequest();
     xhr.responseType= 'json';
@@ -89,6 +200,11 @@ xhr.send();
 }
 
 $("#saveBtn").click(function(){
+    var valid = $("#userForm").valid();
+        if(valid === false){
+           
+        }
+        else{
     let fname = $("#profileFirstName").val();
     let sname = $("#profileLastName").val();
     let gender = $("#profileGender").val();
@@ -121,6 +237,7 @@ xhr.send();
 setTimeout(function(){
     getProfile();
 },1000);
+        }
 
 
 });

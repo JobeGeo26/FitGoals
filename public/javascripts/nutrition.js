@@ -14,15 +14,222 @@ $(document).ready(function(){
     var totalFats = 0;
     var totalFibers= 0;
     var totalProtein= 0;
+    var wasClicked = 0;
+    var change = 0;
     $('#logFood').select2({placeholder: "Start Typing....", allowClear: true});
 
     $("#logFood").append('<option style="display:none;"></option>');
+    $("#logType").val("");
 
-    // Get the modal
-var faveModal = document.getElementById("faveModal");
+    $("#logFood").on('change', function (e) {  
+        if(wasClicked === change){
+        $(this).valid();
+        }
+        else{
+            change = wasClicked;
+        }
+    });
+    $("#logAmount").on('change', function (e) {  
+        if(wasClicked === change){
+        $(this).valid();
+        }
+        else{
+            change = wasClicked;
+        }
+    });
+    $("#logUnit").on('change', function (e) {  
+        if(wasClicked === change){
+        $(this).valid();
+        }
+        else{
+            change = wasClicked;
+        }
+    });
 
-// Get the button that opens the modal
+    $.validator.addMethod('checkUnit', function(value, element) {
+        return foodUnitMap.get(value);
+      }, 'Please pick a unit in the list');
 
+    $.validator.setDefaults({
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            if ($(element).hasClass('select2-hidden-accessible')){
+                $(element)
+               .next().find('span.select2-selection')
+                .addClass('is-invalid');
+
+            }
+            else{
+            $(element)
+              .closest('.form-control')
+              .addClass('is-invalid');
+              //console.log(element.next())
+
+            }
+          },
+          unhighlight: function(element) {
+            if ($(element).hasClass('select2-hidden-accessible')){
+                $(element)
+               .next().find('span.select2-selection')
+                .removeClass('is-invalid');
+
+            }
+            else{
+            $(element)
+              .closest('.form-control')
+              .removeClass('is-invalid')
+            }
+              
+            
+          },
+        
+        errorPlacement: function (error, element) {
+          if (element.hasClass('select2-hidden-accessible') && element.next('.select2-container').length) {
+            error.insertAfter(element.next('.select2-container'));
+          } else {
+            error.insertAfter(element);
+          }
+        }
+      });
+
+    $("#logForm").validate({
+        rules: {
+            logFood:{
+                required: true
+
+            } ,
+            logType:{
+                required:true,
+               
+
+            },
+            logAmount:{
+                required:true,
+                
+
+            },
+            logUnit:{
+                required:true,
+                
+                
+
+            },
+            
+        },
+        messages: {
+            logFood:{
+                required: "Please specify a food item",
+
+            } ,
+            logType:{
+                required:"Please specify a meal type",
+               
+
+            },
+            logAmount:{
+                required:"Please specify amount",
+                
+
+            },
+            logUnit:{
+                required:"Please specify a food unit",
+                
+                
+
+            },
+           
+           
+        }
+    });
+    $("#createForm").validate({
+        rules: {
+            newName:{
+                required: true,
+                minlength: 3,
+
+            } ,
+            newAmount:{
+                required:true,
+               
+
+            },
+            newUnit:{
+                required:true,
+                checkUnit: true,
+                
+
+            },
+            newCals:{
+                required:true,
+                
+
+            },
+            newCarbs:{
+                required:true,
+                
+
+            },
+            newFats:{
+                required:true,
+                
+
+            },
+            newFiber:{
+                required:true,
+                
+
+            },
+            newProtein:{
+                required:true,
+                
+
+            },
+            
+        },
+        messages: {
+            newName:{
+                required: "Please specify food name",
+                minlength: "Name must be atleast 3 characters"
+
+            } ,
+            newAmount:{
+                required:"Please specify food default size",
+               
+
+            },
+            newUnit:{
+                required:"Please specify food default unit",
+                
+
+            },
+            newCals:{
+                required:"Please specify food default Calories",
+                
+
+            },
+            newCarbs:{
+                required:"Please specify food default carbohydrates",
+                
+
+            },
+            newFats:{
+                required:"Please specify food default fats",
+                
+
+            },
+            newFiber:{
+                required:"Please specify food default fibers",
+                
+
+            },
+            newProtein:{
+                required:"Please specify food default proteins",
+                
+
+            },
+           
+        }
+    });
     function getFoodGoals(){
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
@@ -619,7 +826,7 @@ var faveModal = document.getElementById("faveModal");
                 for(var j= 0; j <data.length ;j++){
                 units.set(data[j].id,data[j].plural)
                 document.getElementById("unitList").append(new Option(data[j].plural));
-                foodIdMap.set(data[j].plural,data[j].id)
+                foodUnitMap.set(data[j].plural,data[j].id)
                 }
             }
             else {
@@ -839,6 +1046,11 @@ xhr.send();
     
 
     $("#saveFood").click(function(){
+        var valid = $("#logForm").valid();
+        if(valid === false){
+           
+        }
+        else{
         let food = $("#logFood").val();
         let type = $("#logType").val();
         let amount = $("#logAmount").val();
@@ -886,7 +1098,9 @@ xhr.send();
     }
 };
 xhr.send();
+wasClicked++;
 $("#logForm").find('#logFood , #logType , #logAmount , #logBrand , #logCals , #logUnit').val("");
+$("#logUnit").empty();
 $("#logFood").val( null).trigger('change');
 $("#logFave").val($("#logFave option:first").val());
 $('#logFave').prop('disabled', false);
@@ -901,6 +1115,7 @@ setTimeout(function(){
     getWeeklyCalsIn();
     getNutritionLogs();
 },1500);
+        }
 
 
 
@@ -909,10 +1124,15 @@ setTimeout(function(){
 
 
 $("#saveNewFood").click(function(){
+    var valid = $("#createForm").valid();
+    if(valid === false){
+       
+    }
+    else{
     let food = $("#newName").val();
     let calories = $("#newCals").val();
     let amount = $("#newAmount").val();
-    let unit = foodIdMap.get($("#newUnit").val());
+    let unit = foodUnitMap.get($("#newUnit").val());
     console.log("unit"+ unit);
     let carb = $("#newCarbs").val();
     let fat = $("#newFats").val();
@@ -951,6 +1171,7 @@ else{
 }
 };
 xhr.send();
+    }
 
 });
 
@@ -966,5 +1187,6 @@ getFoodGoals();
         getNutritionProgress();
 
     },1000);
+    
 
 });

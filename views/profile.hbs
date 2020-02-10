@@ -1,3 +1,6 @@
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
 <script src="../javascripts/profile.js"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/common.css"/>
 
@@ -21,15 +24,15 @@
                 </div>
                 <hr>
                 
-                <form>
+                <form id="userForm">
                     <div class="form-row">
                         <div class="form-group col-sm-6">
                             <label for="profileFirstName">First Name</label>
-                            <input type="text" class="form-control" id="profileFirstName">
+                            <input type="text" class="form-control" id="profileFirstName" name="profileFirstName">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="profileLastName">Last Name</label>
-                            <input type="text" class="form-control" id="profileLastName">
+                            <input type="text" class="form-control" id="profileLastName" name="profileLastName"> 
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="profileEmail">Gender</label>
@@ -41,15 +44,15 @@
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="profilePhone">Date Of Birth</label>
-                            <input type="text" class="form-control colon" id="profiledob">
+                            <input type="text" class="form-control colon" id="profiledob" name="profiledob">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="profilePassword">Height(cm)</label>
-                            <input type="number" class="form-control" id="profileHeight">
+                            <input type="number" class="form-control" id="profileHeight" name="profileHeight">
                         </div>
                         <div class="form-group col-sm-6">
                             <label for="profileConfirmPassword">Weight(kg)</label>
-                            <input type="number" class="form-control" id="profileWeight">
+                            <input type="number" class="form-control" id="profileWeight" name="profileWeight">
                         </div>
                          <div class="form-group col-sm-6">
                             <label for="profileConfirmPassword">Start Day of Week</label>
