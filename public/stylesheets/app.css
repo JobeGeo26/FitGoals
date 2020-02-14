@@ -36,19 +36,43 @@
 }
 
 
-/*
-.btn-outline-success{
-    border-color:rgb(50, 175, 133);
-    color: rgb(50, 175, 133) ;
+
+.btn-outline-danger{
+    border-color:#FF0000;
+    color: #FF0000 ;
 
 }
 
-.btn-outline-success:hover{
-    background-color: rgb(50, 175, 133)!important;
+.btn-outline-danger:hover{
+    background-color: #FF0000!important;
     
 
 }
 
-*/
+.btn-outline-warning{
+    border-color:yellow;
+    color: yellow ;
+
+}
+
+.btn-outline-warning:hover{
+    background-color: yellow!important;
+    
+
+}
+
+.btn-outline-success{
+    border-color:rgb(26, 197, 26);
+    color: rgb(26, 197, 26) ;
+
+}
+
+.btn-outline-success:hover{
+    background-color: rgb(26, 197, 26)!important;
+    
+
+}
+
+
 
 

@@ -330,41 +330,87 @@ xhr.send();
         await xlabels;
         await ylabels;
         var ctx = document.getElementById('caloriesBurned').getContext('2d');
+        $('#caloriesBurned').css({'background-image': 'linear-gradient(to bottom,  #FF0000 0%, #FF7878 100%)'});
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: xlabels,
+            
             datasets: [{
                 label: 'Calories Burned in last 7 days',
+               
                 fill: false,
                 data: ylabels,
-                backgroundColor: ['rgb(204, 51, 51)',],
-                borderColor: ['rgb(204, 51, 51)', ],
+                backgroundColor: "rgba(255, 255, 255,0.7)",
+                borderColor:'white',
                 borderWidth: 2
             }]
         },
+        
         options: {
             responsive: false,
             title: {
                 display: true,
                 text: title,
                 fontSize: 20,
+                fontColor: 'white'
+            },
+            legend: {
+                labels: {
+                    fontColor: "white",
+                    fontSize: 18
+                }
             },
             scales: {
                 xAxes: [{
+                    
                     display: true,
                     ticks: {
                         display: true, //this will remove only the label
+                        fontColor: 'white'
                     
+                    
+                    },
+                    gridLines: {
+                        display:true,
+                        color: "rgba(255, 255, 255,0.2)",
+                        zeroLineColor: "white",
                     }
                 }],
                 yAxes: [{
                     ticks: {
+                        fontColor: 'white'
                         
+                    },
+                    gridLines: {
+                        display:true,
+                        color: "rgba(255, 255, 255,0.2)",
+                        zeroLineColor: "white",
                     }
+                }]
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: true
+              },
+              annotation: {
+                annotations: [{
+                  type: 'line',
+                  mode: 'horizontal',
+                  scaleID: 'y-axis-0',
+                  value: calsBurnedGoal,
+                  borderColor: 'white',
+                  borderWidth: 4,
+                  label: {
+                    enabled: true,
+                    content: 'Calories Burned Goal: '+calsBurnedGoal
+                    
+                  }
                 }]
             }
         }
+        
+        
     });
     
     }
@@ -723,7 +769,7 @@ xhr.send();
         return this.optional(element) 
           || value.length === 5
           && reg.test(value.charAt(0))
-          && reg1.test(value.charAt(1))
+          && reg3.test(value.charAt(1))
           && regex.test(value.charAt(2))
           && reg2.test(value.charAt(3))
           && reg3.test(value.charAt(4));
@@ -1049,11 +1095,12 @@ xhr.send();
     }
 
 getFoodGoals();
-    getWeeklyCalsBurned();
+   
     getActivityLogs();
     getFavouriteActivities();
     
     setTimeout(function(){
+        getWeeklyCalsBurned();
         getBalance();
         getActivityProgress();
     },1000);

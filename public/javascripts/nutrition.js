@@ -463,48 +463,93 @@ $(document).ready(function(){
        
       };
 
-    async function createLineChart( xlabels, ylabels,title ){
+      async function createLineChart( xlabels, ylabels,title ){
         await xlabels;
         await ylabels;
         var ctx = document.getElementById('caloriesIn').getContext('2d');
+        $('#caloriesIn').css({'background-image': 'linear-gradient(to bottom,  #93FB9D 0%, #09C7FB 100%)'});
     var myChart = new Chart(ctx, {
         type: 'bar',
         data: {
             labels: xlabels,
+            
             datasets: [{
                 label: 'Calories Intake in last 7 days',
+               
                 fill: false,
                 data: ylabels,
-                backgroundColor: ['yellow',],
-                borderColor: ['yellow', ],
+                backgroundColor: "rgba(255, 255, 255,0.7)",
+                borderColor:'white',
                 borderWidth: 2
             }]
         },
+        
         options: {
             responsive: false,
             title: {
                 display: true,
                 text: title,
                 fontSize: 20,
+                fontColor: 'white'
+            },
+            legend: {
+                labels: {
+                    fontColor: "white",
+                    fontSize: 18
+                }
             },
             scales: {
                 xAxes: [{
+                    
                     display: true,
                     ticks: {
                         display: true, //this will remove only the label
+                        fontColor: 'white'
                     
+                    
+                    },
+                    gridLines: {
+                        display:true,
+                        color: "rgba(255, 255, 255,0.2)",
+                        zeroLineColor: "white",
                     }
                 }],
                 yAxes: [{
                     ticks: {
+                        fontColor: 'white'
                         
+                    },
+                    gridLines: {
+                        display:true,
+                        color: "rgba(255, 255, 255,0.2)",
+                        zeroLineColor: "white",
                     }
+                }]
+            },
+            tooltips: {
+                mode: 'index',
+                intersect: true
+              },
+              annotation: {
+                annotations: [{
+                  type: 'line',
+                  mode: 'horizontal',
+                  scaleID: 'y-axis-0',
+                  value: calsInGoal,
+                  borderColor: 'white',
+                  borderWidth: 4,
+                  label: {
+                    enabled: true,
+                    content: 'Calories Intake Goal: '+calsInGoal
+                    
+                  }
                 }]
             }
         }
+        
+        
     });
-    
-    }
+}
 
     function getNutritionLogs(){
         var rows = $('#nutritionLog tbody tr').length;
@@ -1177,12 +1222,12 @@ xhr.send();
 
 
 getFoodGoals();
-    getWeeklyCalsIn();
     getNutritionLogs();
     getUnits();
     getFavouriteFoods();
    
     setTimeout(function(){
+        getWeeklyCalsIn();
         getBalance();
         getNutritionProgress();
 

@@ -66,46 +66,75 @@ $(document).ready(function(){
 
  };
 
-async function createLineChart( xlabels, ylabels,title ){
+ async function createLineChart( xlabels, ylabels,title ){
     await xlabels;
     await ylabels;
     var ctx = document.getElementById('heartRate').getContext('2d');
+    $('#heartRate').css({'background-image': 'linear-gradient(to bottom,  #FF0000 0%, #FF7878 100%)'});
 var myChart = new Chart(ctx, {
     type: 'line',
     data: {
         labels: xlabels,
+        
         datasets: [{
-            label: 'heart rate per minute tracked',
+            label: 'Heart rate per minute tracked',
+           
             fill: false,
             data: ylabels,
-            backgroundColor: ['rgb(204, 51, 51)',],
-            borderColor: ['rgb(204, 51, 51)', ],
-            borderWidth: 1
+            backgroundColor: "rgb(255, 255, 255)",
+            borderColor:'white',
+            borderWidth: 2
         }]
     },
+    
     options: {
         responsive: false,
         title: {
             display: true,
             text: title,
             fontSize: 20,
+            fontColor: 'white'
+        },
+        legend: {
+            labels: {
+                fontColor: "white",
+                fontSize: 18
+            }
         },
         scales: {
             xAxes: [{
+                
                 display: false,
                 ticks: {
                     display: true, //this will remove only the label
+                    fontColor: 'white'
                 
+                
+                },
+                gridLines: {
+                    display:true,
+                    color: "rgba(255, 255, 255,0.2)",
+                    zeroLineColor: "white",
                 }
             }],
             yAxes: [{
                 ticks: {
+                    fontColor: 'white'
                     
+                },
+                gridLines: {
+                    display:true,
+                    color: "rgba(255, 255, 255,0.2)",
+                    zeroLineColor: "white",
                 }
             }]
-        }
+        },
+       
     }
+    
+    
 });
+
 }
 
 

@@ -8,7 +8,7 @@
 <link rel="stylesheet" type="text/css" href="../stylesheets/common.css"/>
 <script src="../javascripts/activities.js"></script>
 <div class="container text-center">
-        <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Activities Breakdown&nbsp;<i class="fas fa-chart-line" style='font-size:80px; color: rgb(204, 51, 51);'></i></h1 class="">
+        <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Activities Breakdown&nbsp;<i class="fas fa-chart-line" style='font-size:80px; color: #FF0000;'></i></h1 class="">
 </div>
 <div class="container" style="padding-bottom: 50px;" id="graphContainer">
 
@@ -72,12 +72,14 @@
                             <input type="text" class="form-control colon" id="logDuration" name="logDuration" placeholder="HH:mm:ss">
                         </div>
                         <div class="form-group col-sm-6">
-                            <label >Calories Burned(optional)</label>
+                            <label >Calories Burned</label>
                             <input type="number" class="form-control" id="logCals">
+                            <div class="small text-muted">Required for custom activities</div>
                         </div>
                         <div class="form-group col-sm-6">
-                            <label> Distance(optional)</label>
+                            <label> Distance</label>
                             <input type="number" class="form-control" id="logDist">
+                              <div class="small text-muted">Applicable to only walk and run categories</div>
                         </div>
                          
                         <div id="passError" class="error col-sm-12"></div>

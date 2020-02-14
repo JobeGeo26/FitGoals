@@ -1,6 +1,7 @@
 $(document).ready(function(){
     var access_token = getCookie("token");
     var currentStepcount = 0;
+    var stepgoals = 0;
     
  function getStepCountData(){
     var xhr = new XMLHttpRequest();
@@ -37,44 +38,89 @@ async function createLineChart( xlabels, ylabels,title ){
     await xlabels;
     await ylabels;
     var ctx = document.getElementById('stepcount').getContext('2d');
+    $('#stepcount').css({'background-image': 'linear-gradient(to bottom,  #93FB9D 0%, #09C7FB 100%)'});
 var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
         labels: xlabels,
+        
         datasets: [{
-            label: 'Step count last 7 days',
+            label: 'Step Count in last 7 days',
+           
             fill: false,
             data: ylabels,
-            backgroundColor: ['yellow',],
-            borderColor: ['yellow', ],
+            backgroundColor: "rgba(255, 255, 255,0.7)",
+            borderColor:'white',
             borderWidth: 2
         }]
     },
+    
     options: {
         responsive: false,
         title: {
             display: true,
             text: title,
             fontSize: 20,
+            fontColor: 'white'
+        },
+        legend: {
+            labels: {
+                fontColor: "white",
+                fontSize: 18
+            }
         },
         scales: {
             xAxes: [{
+                
                 display: true,
                 ticks: {
                     display: true, //this will remove only the label
+                    fontColor: 'white'
                 
+                
+                },
+                gridLines: {
+                    display:true,
+                    color: "rgba(255, 255, 255,0.2)",
+                    zeroLineColor: "white",
                 }
             }],
             yAxes: [{
                 ticks: {
+                    fontColor: 'white'
                     
+                },
+                gridLines: {
+                    display:true,
+                    color: "rgba(255, 255, 255,0.2)",
+                    zeroLineColor: "white",
                 }
+            }]
+        },
+        tooltips: {
+            mode: 'index',
+            intersect: true
+          },
+          annotation: {
+            annotations: [{
+              type: 'line',
+              mode: 'horizontal',
+              scaleID: 'y-axis-0',
+              value:stepgoals ,
+              borderColor: 'white',
+              borderWidth: 4,
+              label: {
+                enabled: true,
+                content: 'Step count Goal: '+stepgoals
+                
+              }
             }]
         }
     }
+    
+    
 });
 }
-
 function getStepProgress(){
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -83,12 +129,15 @@ function getStepProgress(){
     xhr.onload = function () {
         if (xhr.status === 200) {
             const data = xhr.response;
-            const stepgoals= data.goals.steps;
+             stepgoals= data.goals.steps;
+             getStepCountData();
+             setTimeout(function(){
             console.log(currentStepcount);
             let progress = ((currentStepcount/stepgoals) *100).toFixed(2);
             document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: "+ progress+"%";
             document.getElementById("goal").textContent =  stepgoals+" steps";
            moveProgressBar(progress);
+              },1000 );
            
         }
         else{
@@ -131,11 +180,12 @@ async function moveProgressBar(progress){
 }
 
 
-getStepCountData();
-setTimeout(function(){
+
+
 
     getStepProgress();
-},1000);
+
+
 
 
  });
