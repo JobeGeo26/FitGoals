@@ -36,6 +36,7 @@ h3{
 
 .fa-heartbeat{
     animation: heartbeat 1s infinite;
+    
 }
 
 @-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
@@ -99,3 +100,19 @@ h3{
 .select2-container .is-valid {
   border-color: green !important;
 }
+
+canvas#balanceGauge {
+  width: 100% !important;
+  height: auto !important;
+}
+
+canvas#minutesGauge {
+  width: 100% !important;
+  height: auto !important;
+}
+
+canvas#distanceGauge {
+  width: 100% !important;
+  height: auto !important;
+}
+  

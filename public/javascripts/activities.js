@@ -1,6 +1,10 @@
 $(document).ready(function(){
     var access_token = getCookie("token");
     var calsBurnedGoal;
+    var currDistance;
+    var currActiveMins;
+    var distGoal;
+    var minsGoal;
     var currBurned;
     var activitiesMap = new Map();
     var totalCals = 0;
@@ -9,6 +13,7 @@ $(document).ready(function(){
     var intensity;
     var wasClicked = 0;
     var change = 0;
+    $("nav").css({'background-image': 'linear-gradient(to right,  #FF0000 0%, #FF7878 100%)'})
     $('#logActivity').select2({placeholder: "Search Activity....", allowClear: true});
     
     $("#logActivity").on('change', function (e) {  
@@ -105,13 +110,13 @@ else{
 
                 }
                 if(balance < -250){
-                    getBalanceGauge(50);
+                    getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 250 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
                 }
                 if(balance >-250){
-                    getBalanceGauge(250);
+                    getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 250 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
                 }
@@ -126,14 +131,14 @@ else{
 
                 }
                 if(balance < -500){
-                    getBalanceGauge(50);
+                    getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 500 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
 
                 }
                 if(balance >-500){
-                    getBalanceGauge(250);
+                    getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 500 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
@@ -148,14 +153,14 @@ else{
 
                 }
                 if(balance < -750){
-                    getBalanceGauge(50);
+                    getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 750 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
 
                 }
                 if(balance >-750){
-                    getBalanceGauge(250);
+                    getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 750 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
@@ -172,7 +177,7 @@ else{
 
                 }
                 if(balance < -1000){
-                    getBalanceGauge(50);
+                    getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 1,000 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
@@ -180,7 +185,7 @@ else{
 
                 }
                 if(balance >-1000){
-                    getBalanceGauge(250);
+                    getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 1,000 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
@@ -282,6 +287,60 @@ xhr.send();
           var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
           gauge.maxValue = 300; // set max gauge value
           gauge.setMinValue(1);  // Prefer setter over gauge.minValue = 0
+          gauge.animationSpeed = 32; // set animation speed (32 is default value)
+          gauge.set(value); // set actual value
+    }
+
+    function getActiveMinsGauge(value){
+        var opts = {
+            angle: 0.15, // The span of the gauge arc
+            lineWidth: 0.44, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+              length: 0.6, // // Relative to gauge radius
+              strokeWidth: 0.035, // The thickness
+              color: '#000000' // Fill color
+            },
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#CF3E3E',   // Colors
+            colorStop: 'yellow',    // just experiment with them
+            strokeColor: '#E0E0E0',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+            
+          };
+          var target = document.getElementById('minutesGauge'); // your canvas element
+          var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+          gauge.maxValue = 100; // set max gauge value
+          gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+          gauge.animationSpeed = 32; // set animation speed (32 is default value)
+          gauge.set(value); // set actual value
+    }
+
+    function getDistanceGauge(value){
+        var opts = {
+            angle: 0.15, // The span of the gauge arc
+            lineWidth: 0.44, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+              length: 0.6, // // Relative to gauge radius
+              strokeWidth: 0.035, // The thickness
+              color: '#000000' // Fill color
+            },
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#CF3E3E',   // Colors
+            colorStop: '#FF0000',    // just experiment with them
+            strokeColor: '#E0E0E0',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+            
+          };
+          var target = document.getElementById('distanceGauge'); // your canvas element
+          var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+          gauge.maxValue = 100; // set max gauge value
+          gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
           gauge.animationSpeed = 32; // set animation speed (32 is default value)
           gauge.set(value); // set actual value
     }
@@ -447,6 +506,8 @@ xhr.send();
            }
         let baseDate = +year+'-'+month+'-'+day;
         console.log(baseDate);
+        let distProgress =0;
+        let minsProgress = 0;
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
         xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities/date/'+baseDate+'.json');
@@ -457,6 +518,18 @@ xhr.send();
                 console.log(data);
                 calsBurnedGoal = data.goals.caloriesOut;
                 currBurned = data.summary.caloriesOut;
+                distGoal = data.goals.distance;
+                minsGoal = data.goals.activeMinutes;
+                currActiveMins = data.summary.veryActiveMinutes;
+               document.getElementById("minStatus").textContent = currActiveMins+"/"+minsGoal+" mins completed!"
+               document.getElementById("bmr").textContent = "Today you have burned "+data.summary.caloriesBMR +" kcals so far due to your BMR!";
+              
+                if(data.summary.distances[0].activity === "total"){
+                currDistance = data.summary.distances[0].distance;
+                }
+                document.getElementById("distStatus").textContent = currDistance+"/"+distGoal+" km completed!"
+                 distProgress = ((currDistance/distGoal)*100).toFixed(2);
+                 minsProgress = ((currActiveMins/minsGoal)*100).toFixed(2);
                 
                 for(var i =data.activities.length-1 ; i>=0; i--){
                     let tableRef = document.getElementById('activityLog').getElementsByTagName('tbody')[0];
@@ -528,7 +601,10 @@ xhr.send();
             newRow.insertCell(6);
             getActivityProgress();
             getBalance();
-                },1000);
+            console.log("prog"+minsProgress+distProgress)
+            getActiveMinsGauge(minsProgress);
+            getDistanceGauge(distProgress);
+                },1700);
       
     
     }
@@ -542,10 +618,21 @@ xhr.send();
     if (xhr.status === 204) {
         const data = xhr.response;
         console.log("status"+xhr.status+" data:"+data);
+        Swal.fire({
+            icon: 'success',
+            title: 'Your Log has been deleted!',
+            timer: 1500
+          });
        
     }
     else{
         console.log("Status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
+        
     }
     };
     xhr.send();
@@ -939,11 +1026,20 @@ xhr.send();
     if (xhr.status === 201) {
         const data = xhr.response;
         console.log(data);
-        
+        Swal.fire({
+            icon: 'success',
+            title: 'Your Log has been saved!',
+            timer: 1500
+          });
        
     }
     else{
         console.log("Status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
     }
 };
 xhr.send();
@@ -1101,7 +1197,7 @@ getFoodGoals();
     
     setTimeout(function(){
         getWeeklyCalsBurned();
-        getBalance();
+      //  getBalance();
         getActivityProgress();
     },1000);
 

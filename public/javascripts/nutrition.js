@@ -715,10 +715,20 @@ $(document).ready(function(){
     if (xhr.status === 204) {
         const data = xhr.response;
         console.log("status"+xhr.status+" data:"+data);
+        Swal.fire({
+            icon: 'success',
+            title: 'Your Log has been deleted!',
+            timer: 1500
+          });
        
     }
     else{
         console.log("Status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
     }
     };
     xhr.send();
@@ -1136,10 +1146,20 @@ xhr.send();
     if (xhr.status === 201) {
         const data = xhr.response;
         console.log(data);
+        Swal.fire({
+            icon: 'success',
+            title: 'Your Log has been saved!',
+            timer: 1500
+          });
        
     }
     else{
         console.log("Status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
     }
 };
 xhr.send();

@@ -5,7 +5,7 @@
 </div>
 <div class="container" style="padding-bottom: 50px;">
 
-        <canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="stepcount" width="1000vw" height="450vh"></canvas>
+        <canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="stepcount" width="1400vw" height="475vh" style="border: 2px white; border-radius: 20px"></canvas>
 </div>
 <div class="container" style="padding-bottom: 1px;">
 <h2 id="progressStatus"></h2>
@@ -24,8 +24,71 @@
 <div class="container text-right" style="padding-bottom: 5px;">
         <h4 style="color: rgb(13, 189, 13);" id="goal"></h4>
 </div>
-<div class="container text-center">
+<div class="container text-center" style="padding-bottom: 40px;">
         <h2>Today's Step Counter:</h2>
         <h2 id="stepcounter" style="padding-bottom: 5px;"></h2>
          <i class="fas fa-shoe-prints" style='font-size:50px; color: yellow;'></i>
+
+</div>
+<div class="container" style="width: 70%;">
+ <form id="heartForm" style= "border: solid 4px white!important;border-radius:30px;background-image: linear-gradient(to bottom,  #93FB9D 0%, rgb(9, 251, 130) 100%)">
+                    <div class="form-row">
+                            <div class="form-group col-sm-12 text-center">
+                                    <h2 style="color:white">Statistical Breakdown</h2>
+
+                            </div>
+                           
+                        <div class="form-group col-sm-12 text-center">
+                                    <h3 style="color:white">Today's Statistics Summary</h3>
+
+                            </div>
+                         <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white;" id="todaySteps">Steps: N/A</h4>
+                           
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white" id="todayFloors">Floors: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white" id="todayDistance">Distance: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-12 text-center">
+                                    <h3 style="color:white" id="best">Best Statistics Summary</h3>
+
+                            </div>
+                        <div class="form-group col-sm-4 text-center">
+                             <h4 style="color:white;" id="bestSteps">Steps: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white" id="bestFloors">Floors: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white" id="bestDist">Distance: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-12 text-center">
+                                    <h3 style="color:white">Lifetime Statistics Summary</h3>
+
+                            </div>
+                          <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white;" id="lifeSteps">Steps: N/A</h4>
+                           
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white" id="lifeFloors">Floors: N/A</h4>
+                           
+                        </div> 
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:white" id="lifeDist">Distance: N/A</h4>
+                           
+                        </div>
+                        
+                    </div>
+                </form>
 </div>

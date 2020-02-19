@@ -1,5 +1,6 @@
 $(document).ready(function(){
     var access_token = getCookie("token");
+    $("nav").css({'background-image': 'linear-gradient(to right,  #FF0000 0%, #FF7878 100%)'})
 
     function graphIntradayHeartRate(){
         var xhr = new XMLHttpRequest();
@@ -48,11 +49,22 @@ $(document).ready(function(){
         if (xhr.status === 200) {
             const data = xhr.response;
             let restHR =data["activities-heart"][0].value.restingHeartRate;
+            let zoneTimes = data["activities-heart"][0].value.heartRateZones[0].minutes;
+            let zones = data["activities-heart"][0].value.heartRateZones;
             if(restHR === undefined || restHR ==="undefined"){
                 document.getElementById("restHR").textContent = "N/A Please continue to wear your tracker!";
             }
             else{
             document.getElementById("restHR").textContent = data["activities-heart"][0].value.restingHeartRate+" bpm";
+            }
+            if(zoneTimes !== undefined){  
+                document.getElementById("fatburn").textContent = "Minutes: "+zones[1].minutes;
+                document.getElementById("fatburnCals").textContent = "Calories: "+(zones[1].caloriesOut).toFixed(2);
+                document.getElementById("cardio").textContent = "Minutes: "+zones[2].minutes;
+                document.getElementById("cardioCals").textContent = "Calories: "+(zones[2].caloriesOut).toFixed(2);
+                document.getElementById("peak").textContent = "Minutes: "+zones[3].minutes;
+                document.getElementById("peakCals").textContent = "Minutes: "+(zones[3].caloriesOut).toFixed(2);
+
             }
            
             
@@ -81,7 +93,7 @@ var myChart = new Chart(ctx, {
            
             fill: false,
             data: ylabels,
-            backgroundColor: "rgb(255, 255, 255)",
+            backgroundColor: "rgba(255, 255, 255,0.1)",
             borderColor:'white',
             borderWidth: 2
         }]
@@ -129,6 +141,21 @@ var myChart = new Chart(ctx, {
                 }
             }]
         },
+        annotation: {
+            annotations: [{
+              type: 'line',
+              mode: 'horizontal',
+              scaleID: 'y-axis-0',
+              value: 99,
+              borderColor: 'white',
+              borderWidth: 4,
+              label: {
+                enabled: true,
+                content: 'Fat Burn: 99 bpm'
+                
+              }
+            }]
+        }
        
     }
     

@@ -224,11 +224,22 @@ $("#saveBtn").click(function(){
 if (xhr.status === 200) {
     const data = xhr.response;
     console.log(data);
+    Swal.fire({
+        icon: 'success',
+        title: 'Your details have been saved!',
+        timer: 1500
+      });
+    
 
    
 }
 else{
     console.log("Status:"+xhr.status);
+    Swal.fire({
+        icon: 'error',
+        title: 'Something went wrong, try again!',
+        timer: 1500
+      });
 }
 };
 xhr.send();

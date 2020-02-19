@@ -5,10 +5,72 @@
 </div>
 <div class="container" style="padding-bottom: 50px;">
 
-        <canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="heartRate" width="1000vw" height="450vh"></canvas>
+        <canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="heartRate" width="1400vw" height="475vh" style="border: 2px white; border-radius: 20px"></canvas>
 </div>
-<div class="container text-center">
+<div class="container text-center" style="padding-bottom: 40px;">
         <h2>Resting Heart Rate for Today:</h2>
         <h2 id="restHR"></h2>
          <i class="fas fa-heartbeat" style='font-size:50px; color: #FF0000;'></i>
+</div>
+<div class="container" style="width: 70%;">
+ <form id="heartForm" style= "border: solid 4px rgb(231, 50, 50)!important;border-radius:30px;">
+                    <div class="form-row">
+                            <div class="form-group col-sm-12 text-center">
+                                    <h2 style="color:#FF0000">Heart Rate Zones Breakdown</h2>
+
+                            </div>
+                           
+                        <div class="form-group col-sm-12 text-center">
+                                    <h3 style="color:rgb(26, 197, 26)">Fat Burn Zone</h3>
+
+                            </div>
+                         <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black; font-size: 25px;  font-family:'Oswald',sans-serif;">Range: 99-139 bpm</h4>
+                           
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black" id="fatburn">Minutes: N/A;</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black" id="fatburnCals">Calories: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-12 text-center">
+                                    <h3 style="color:orange">Cardio Zone</h3>
+
+                            </div>
+                        <div class="form-group col-sm-4 text-center">
+                             <h4 style="color:black; font-size: 25px;  font-family:'Oswald',sans-serif;">Range: 139-169 bpm</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black" id="cardio">Minutes: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black" id="cardioCals">Calories: N/A</h4>
+                           
+                        </div>
+                        <div class="form-group col-sm-12 text-center">
+                                    <h3 style="color:#FF0000">Peak Zone</h3>
+
+                            </div>
+                          <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black; font-size: 25px;  font-family:'Oswald',sans-serif;">Range: 169-220 bpm</h4>
+                           
+                           
+                        </div>
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black" id="peak">Minutes: N/A</h4>
+                           
+                        </div> 
+                        <div class="form-group col-sm-4 text-center">
+                            <h4 style="color:black" id="peakCals">Calories: N/A</h4>
+                           
+                        </div>
+                        
+                    </div>
+                </form>
 </div>

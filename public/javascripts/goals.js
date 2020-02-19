@@ -86,6 +86,9 @@ function getFoodGoals(){
             if(data.foodPlan.estimatedDate != undefined){
             document.getElementById("endDate").textContent = formatDate(data.foodPlan.estimatedDate);
             }
+            else{
+                document.getElementById("endDate").textContent = "N/A";
+            }
 
             
         }
@@ -195,10 +198,20 @@ function deleteLog(logID){
 if (xhr.status === 204) {
     const data = xhr.response;
     console.log("status"+xhr.status+" data:"+data);
+    Swal.fire({
+        icon: 'success',
+        title: 'Your Log has been deleted!',
+        timer: 1500
+      });
    
 }
 else{
     console.log("Status:"+xhr.status);
+    Swal.fire({
+        icon: 'error',
+        title: 'Something went wrong, try again!',
+        timer: 1500
+      });
 }
 };
 xhr.send();
@@ -230,6 +243,7 @@ else{
         var input = $('<select id="myList"><option class="editableColumnsFoodStyle" >MAINTENANCE</option></select>');
         input.val(numbers[0]);
         $(this).html(input);
+        
       });
 
 }
@@ -251,10 +265,19 @@ else{
     if (xhr.status === 200) {
         const data = xhr.response;
         console.log(data);
-       
+        Swal.fire({
+            icon: 'success',
+            title: 'Your Goal has been saved!',
+            timer: 1500
+          });
     }
     else{
         console.log("Status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
     }
 };
 xhr.send();
@@ -333,10 +356,20 @@ $('.editActivity').click(function () {
     if (xhr.status === 201) {
         const data = xhr.response;
         console.log(data);
+        Swal.fire({
+            icon: 'success',
+            title: 'Your Log has been saved!',
+            timer: 1500
+          });
        
     }
     else{
         console.log("Status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
     }
 };
 xhr.send();
@@ -361,10 +394,20 @@ setTimeout(function(){
            xhr.onload = function () {
         if (xhr.status === 200) {
             const data = xhr.response;
+            Swal.fire({
+                icon: 'success',
+                title: 'Your Goal has been saved!',
+                timer: 1500
+              });
            
         }
         else{
             console.log("Status:"+xhr.status);
+            Swal.fire({
+                icon: 'error',
+                title: 'Something went wrong, try again!',
+                timer: 1500
+              });
         }
     };
     xhr.send();
@@ -381,10 +424,20 @@ setTimeout(function(){
     if (xhr.status === 200) {
         const data = xhr.response;
         console.log(data);
+        Swal.fire({
+            icon: 'success',
+            title: 'Your Goal has been saved!',
+            timer: 1500
+          });
        
     }
     else{
         console.log("Status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
     }
 };
 xhr.send();
@@ -401,10 +454,20 @@ if(goalName.includes("Calories")){
 if (xhr.status === 200) {
     const data = xhr.response;
     console.log(data);
+    Swal.fire({
+        icon: 'success',
+        title: 'Your Goal has been saved!',
+        timer: 1500
+      });
    
 }
 else{
     console.log("Status:"+xhr.status);
+    Swal.fire({
+        icon: 'error',
+        title: 'Something went wrong, try again!',
+        timer: 1500
+      });
 }
 };
 xhr.send();
@@ -421,10 +484,20 @@ if(goalName.includes("Distance")){
 if (xhr.status === 200) {
     const data = xhr.response;
     console.log(data);
+    Swal.fire({
+        icon: 'success',
+        title: 'Your Goal has been saved!',
+        timer: 1500
+      });
    
 }
 else{
     console.log("Status:"+xhr.status);
+    Swal.fire({
+        icon: 'error',
+        title: 'Something went wrong, try again!',
+        timer: 1500
+      });
 }
 };
 xhr.send();
@@ -478,11 +551,21 @@ var id =0;
       if (xhr.status === 200) {
           const data = xhr.response;
           console.log(data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Your goal has been saved!',
+            timer: 1500
+          });
  
        }
      else{
 
         console.log("status:"+xhr.status);
+        Swal.fire({
+            icon: 'error',
+            title: 'Something went wrong, try again!',
+            timer: 1500
+          });
        }
  }
  xhr.send();
@@ -519,6 +602,7 @@ function getWeightProgress(){
     }
     
     if(target <0 && currentWeight !=0){
+        document.getElementById("gainMessage").textContent = null;
         document.getElementById("progressStatus").textContent = " Current Weight Loss Progress: "+currentWeight+" kg(Lose "+Math.abs(remaining)+" kg)";
         if(progress <=34){
             document.getElementById("red").setAttribute("style","width:"+progress+"%");
@@ -554,6 +638,7 @@ function getWeightProgress(){
         }
     }
     if(target >0 && currentWeight !=0){
+        document.getElementById("gainMessage").textContent = "No food plan available for weight gain"
         document.getElementById("progressStatus").textContent = " Current Weight Gain Progress: "+currentWeight+" kg(Gain "+Math.abs(remaining)+" kg)";
         if(progress <=34){
             document.getElementById("red").setAttribute("style","width:"+progress+"%");
