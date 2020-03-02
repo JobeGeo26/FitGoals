@@ -1,5 +1,6 @@
 $(document).ready(function(){
     var access_token = getCookie("token");
+    var userId = localStorage.getItem("userId");
     var calsInGoal;
     var currIn;
     var intensity;
@@ -428,9 +429,16 @@ $(document).ready(function(){
     }
 
     function getWeeklyCalsIn(){
+        var date= moment();
+        var startOfWeek = date.startOf('isoWeek').format('L');
+        var startOfWeekArray = startOfWeek.split("/");
+        startOfWeek = startOfWeekArray[2]+"-"+startOfWeekArray[0]+ "-"+startOfWeekArray[1];
+var endOfWeek   = date.endOf('isoWeek').format('L');
+var endOfWeekArray = endOfWeek.split("/");
+endOfWeek = endOfWeekArray[2]+"-"+endOfWeekArray[0]+ "-"+endOfWeekArray[1];
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
-        xhr.open('GET', 'https://api.fitbit.com/1/user/-/foods/log/caloriesIn/date/today/7d.json');
+        xhr.open('GET', 'https://api.fitbit.com/1/user/-/foods/log/caloriesIn/date/'+startOfWeek+'/'+endOfWeek+'.json');
         xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
         xhr.onload = function () {
             if (xhr.status === 200) {

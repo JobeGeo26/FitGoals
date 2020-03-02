@@ -3,6 +3,7 @@ $(document).ready(function(){
     $('.weightEditable').forceNumeric();
     $('.logtext').forceNumeric();
     var access_token = getCookie("token");
+    var userId = localStorage.getItem("userId");
     var currentWeight = 0;
     var currentWeightGoal = 0;
     var startWeight = 0;
@@ -19,6 +20,41 @@ $(document).ready(function(){
 
 
     };
+
+    function getProfile(){
+        var xhr = new XMLHttpRequest();
+        xhr.responseType= 'json';
+        xhr.open('GET', 'https://api.fitbit.com/1/user/-/profile.json');
+        xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
+       xhr.onload = function () {
+    if (xhr.status === 200) {
+        const data = xhr.response;
+        console.log(data);
+        if(data.user.gender === "MALE"){
+        $("#gender").val(1);
+        }
+        else{
+            $("#gender").val(2);
+        }
+
+        $("#height").val((data.user.height).toFixed(2));
+        $("#weight").val(data.user.weight);
+        $("#age").val(data.user.age);
+       
+    
+    
+       
+    }
+    else{
+        console.log("Status:"+xhr.status);
+    }
+    };
+    xhr.send();
+    
+    
+    
+    }
+    
 function getDailyActivityGoals(){
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
@@ -235,6 +271,8 @@ $('.editFood').click(function () {
       input.val(numbers[0]);
       $(this).html(input);
     });
+
+
 }
 else{
     $(this).parents('tr').find('td.foodEditableList').each(function() {
@@ -248,6 +286,194 @@ else{
 
 }
     
+  });
+
+  $('.editNutrition').click(function () {
+    $(this).prop('disabled', true);
+    $(this).parents('td').find('.saveNutrition').prop('disabled', false);
+    var index = 1;
+    var i = 1;
+    $(this).parents('tr').find('td.nutritionEditable, td.nutritionAmount').each(function() {
+        if($(this).hasClass("nutritionEditable")){
+       let  id = "nutval" + index;
+      var html = $(this).html();
+      var numbers = html.split(" ");
+      var input = $('<select id="'+id+'"><option value="Carbohydrates">Carbohydrates</option><option value="Protein" >Protein</option><option value="Fiber">Fiber</option><option value="Fats">Fats</option></select>');
+      input.val(numbers[0]);
+      $(this).html(input);
+      index++;
+        }
+        else{
+            let  id = "nutAmount" + i;
+            var html = $(this).html();
+            var numbers = html.split(" ");
+            var input = $('<input type="number" id="'+id+'" placeholder="grams" style="height: 85%; width:85%;" />');
+            input.val(numbers[0]);
+            $(this).html(input);
+            i++;
+
+        }
+    });
+
+  });
+
+  $('.saveNutrition').click(function () {
+      let nutrition1 = $("#nutval1").val();
+      let amount1 = $("#nutAmount1").val();
+      let nutrition2 = $("#nutval2").val();
+      let amount2 =  $("#nutAmount2").val();
+      console.log(nutrition1, amount1,nutrition2,amount2);
+      var param = {user_id: userId,
+        nutrition_val1:nutrition1 , 
+        nutrition_amount1:amount1, 
+        nutrition_val2:nutrition2,
+        nutrition_amount2:amount2};
+        var xhr = new XMLHttpRequest();
+      xhr.responseType = 'json';
+        xhr.open('POST', '/updateNutrition');
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log(xhr.response);
+                getNutritionGoals();
+               
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Your Goal has been saved!',
+                    timer: 1500
+                  });
+
+                
+            }
+            else{
+                console.log("Status:"+xhr.status);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Something went wrong, try again!',
+                    timer: 1500
+                  });
+            }
+        };
+        console.log(param);
+        xhr.send(JSON.stringify(param));
+        $(this).prop('disabled', true);
+        $(this).parents('td').find('.editNutrition').prop('disabled', false);
+
+});
+
+  $.validator.setDefaults({
+    errorClass: 'invalid-feedback',
+    highlight: function(element) {
+       
+        $(element)
+          .closest('.form-control')
+          .addClass('is-invalid');
+          //console.log(element.next())
+
+       
+      },
+      unhighlight: function(element) {
+        
+        
+        $(element)
+          .closest('.form-control')
+          .removeClass('is-invalid')
+       
+          
+        
+      },
+    
+  });
+
+$("#calculate").validate({
+    rules: {
+        weight:{
+            required: true
+
+        } ,
+        height:{
+            required:true,
+           
+
+        },
+        age:{
+            required:true,
+            
+
+        },
+       
+        
+    },
+    messages: {
+        weight:{
+            required: "Please specify weight",
+
+        } ,
+        height:{
+            required:"Please specify height",
+           
+
+        },
+        age:{
+            required:"Please specify age",
+            
+
+        },
+        logUnit:{
+            required:"Please specify a food unit",
+            
+            
+
+        },
+       
+       
+    }
+});
+  $('#calculateButton').click(function () {
+      var valid = $("#calculate").valid();
+      if(valid === false){
+
+      }
+      else{
+      let calsGoal = 0;
+      if( $('#gender').val() === "1"){
+          let weight = $('#weight').val();
+          let height = $('#height').val();
+          let age = $('#age').val();
+          let effort = $('#effort').val();
+          let BMR =  (10 * weight) + (6.25 * height) - (5* age)  + 5;
+          calsGoal = (BMR * effort).toFixed(0);
+          console.log(calsGoal)
+          document.getElementById("goalCalc").textContent = calsGoal +" kcals";
+
+
+      }
+      else{
+
+        let weight = $('#weight').val();
+          let height = $('#height').val();
+          let age = $('#age').val();
+          let effort = $('#effort').val();
+          let BMR =  (10 * weight) + (6.25 * height) - (5* age) - 161;
+          calsGoal = BMR * effort;
+          document.getElementById("goalCalc").textContent = calsGoal +" kcals";
+      }
+      if(calsGoal !== 0){
+          $("#useThis").prop("disabled",false);
+      }
+    }
+
+  });
+  $('#useThis').mouseup(function () {
+      let calsGoal = 0;
+      let calstxt = $("#goalCalc").html() 
+      let splitcals = calstxt.split(" ");
+      calsGoal = splitcals[0];
+      $("#inputCalGoal").val(calsGoal);
+      
+    
+
+      console.log(calsGoal)
   });
 
   $('.saveFood').click(function () {
@@ -297,11 +523,22 @@ $('.editActivity').click(function () {
     $(this).parents('tr').find('td.editableColumns').each(function() {
       var html = $(this).html();
       var numbers = html.split(" ");
+      if($(this).get(0).id === 'calOutval'){
+       // var input = $('<input class="editableColumnsStyle" type="text" />');
+        var input = $('<div style="position:relative;margin-bottom:10px;" class="buttonInside"><input style="height:30px;width:100%;padding-left:10px;border-radius: 4px;border:none;outline:none;" class="editableColumnsStyle" id="inputCalGoal" type="text" /><button style="position:absolute; right: 0px; top: 3px;border:none;height:25px;width:25px;border-radius:100%;outline:none;font-weight:bold;" id="showHelp" data-toggle="modal" data-target="#goalCalculator">?</button></div>');
+        input.find("#inputCalGoal").val(numbers[0]);
+      
+    }
+      else{
       var input = $('<input class="editableColumnsStyle" type="text" />');
       input.val(numbers[0]);
+      }
+    
+      
       $(this).html(input);
     });
   });
+ 
 
   $('.submitLog').click(function () {
     var param="";
@@ -502,9 +739,9 @@ else{
 };
 xhr.send();
 }
-   
-   $(this).prop('disabled', true);
-   $(this).parents('td').find('.editActivity').prop('disabled', false);
+   $(".editActivity").prop('disabled', false);
+   $(".saveActivity").prop('disabled', true);
+  
 setTimeout(function(){
     getDailyActivityGoals(); 
 },1500);
@@ -677,12 +914,35 @@ function getWeightProgress(){
 
 }
 
-  
-  
+  function getNutritionGoals(){
+    var xhr = new XMLHttpRequest();
+    xhr.responseType = 'json';
+    xhr.open('GET', '/getNutritionGoals/'+userId);
+    xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            console.log(xhr.response);
+            let data = xhr.response;
+            document.getElementById("val1").textContent = data.nutrition_val1;
+            document.getElementById("amount1").textContent = data.nutrition_amount1;
+            document.getElementById("val2").textContent = data.nutrition_val2;
+            document.getElementById("amount2").textContent = data.nutrition_amount2;     
+        }
+        else{
+            console.log("Status:"+xhr.status);
+        }
+    };
+
+    xhr.send();
+
+  };
+
+ getProfile(); 
 getDailyActivityGoals();
 getWeightGoals();
 getWeightLogs();
 getFoodGoals();
+getNutritionGoals();
 setTimeout(function(){
 
     getWeightProgress();

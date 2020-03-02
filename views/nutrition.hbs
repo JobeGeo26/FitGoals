@@ -5,6 +5,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 <script src="https://bernii.github.io/gauge.js/dist/gauge.min.js"></script>
 <link rel="stylesheet" type="text/css" href="../stylesheets/common.css"/>
+<script src="https://momentjs.com/downloads/moment-with-locales.min.js"></script>
 <script src="../javascripts/nutrition.js"></script>
 <div class="container text-center">
         <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Nutrition Breakdown&nbsp;<i class="fas fa-chart-line" style='font-size:80px; color: yellow;'></i></h1 class="">
@@ -17,7 +18,7 @@
 <div class="container" style="padding-bottom: 30px;">
 <h2 class="text-center">Daily Summary&nbsp;<i class="fas fa-tachometer-alt" style='font-size:40px; color:orange;'></i></h2>
 <div class="row">
-  <div class="col-6 text-center">
+  <div class="col-4 text-center">
     <h3>Calories In/Out Goal Balance&nbsp;<i class="fas fa-balance-scale" style='font-size:40px; color: rgb(26, 197, 26);'></i></h3>
   <canvas id="balanceGauge"  height="225" width="570" style="width: 380px; height: 150px;"></canvas>
 <h3 id ="balStatus"></h3>
