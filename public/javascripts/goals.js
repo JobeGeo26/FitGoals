@@ -7,6 +7,7 @@ $(document).ready(function(){
     var currentWeight = 0;
     var currentWeightGoal = 0;
     var startWeight = 0;
+    var foodgoal = 0;
 
    
     var time = document.getElementsByClassName('colon'); //Get all elements with class "time"
@@ -39,6 +40,55 @@ $(document).ready(function(){
 
         $("#height").val((data.user.height).toFixed(2));
         $("#weight").val(data.user.weight);
+        
+        if(data.user.age <= 46){
+            console.log("inside age")
+        document.getElementById("proteinInfo").textContent = "We suspect that people your age are interested in heavy weight training and muscle mass, try aiming for 2.2 grams per kg for protein intake"
+        $("#proteinpercent").val(2.2);
+        let proteinVal = (2.2 * data.user.weight).toFixed(0);
+        $("#proteingrams").text(proteinVal+ " grams");
+
+        document.getElementById("proteinInfo2").textContent = "We suspect that people your age are interested in heavy weight training and muscle mass, try aiming for 2.2 grams per kg for protein intake"
+        $("#proteinpercent2").val(2.2);
+        let proteinVal2 = (2.2 * data.user.weight).toFixed(0);
+        $("#proteingrams2").text(proteinVal2+ " grams");
+
+        }
+
+        if(data.user.age > 46){
+            document.getElementById("proteinInfo").textContent = "We suspect that people your age may not be interested in heavy weight training and muscle mass, so try aiming for 0.8 gram per kg for protein intake"
+        $("#proteinpercent").val(0.8);
+        let proteinVal = (0.8 * data.user.weight).toFixed(0);
+        $("#proteingrams").text(proteinVal+ " grams");
+
+        document.getElementById("proteinInfo2").textContent = "We suspect that people your age may not be interested in heavy weight training and muscle mass, so try aiming for 0.8 gram per kg for protein intake"
+        $("#proteinpercent2").val(0.8);
+        let proteinVal2 = (0.8 * data.user.weight).toFixed(0);
+        $("#proteingrams2").text(proteinVal2+ " grams");
+
+        }
+
+        if(data.user.age < 50 && data.user.gender === "MALE"){
+            $("#fiberInfo").text("According to your age and sex we recommend you pick a middle value of 34 grams");
+            $("#fibergrams").text(34 +" grams");
+            $("#fiberInfo2").text("According to your age and sex we recommend you pick a middle value of 34 grams");
+            $("#fibergrams2").text(34 +" grams");
+        }
+
+        if(data.user.age < 50 && data.user.gender === "FEMALE"){
+            $("#fiberInfo").text("According to your age and sex we recommend you pick a middle value of 23 grams");
+            $("#fibergrams").text(23 +" grams");
+            $("#fiberInfo2").text("According to your age and sex we recommend you pick a middle value of 23 grams");
+            $("#fibergrams2").text(23 +" grams");
+        }
+        if(data.user.age > 50){
+            $("#fiberInfo").text("According to your age we recommend you pick a value of 25 grams ");
+            $("#fibergrams").text(25 +" grams");
+            $("#fiberInfo2").text("According to your age we recommend you pick a value of 25 grams ");
+            $("#fibergrams2").text(25 +" grams");
+
+        }
+
         $("#age").val(data.user.age);
        
     
@@ -118,6 +168,7 @@ function getFoodGoals(){
             const data = xhr.response;
             console.log(data);
             document.getElementById("foodCals").textContent = data.goals.calories+ " kcal";
+            foodgoal = data.goals.calories;
             document.getElementById("intensity").textContent = data.foodPlan.intensity;
             if(data.foodPlan.estimatedDate != undefined){
             document.getElementById("endDate").textContent = formatDate(data.foodPlan.estimatedDate);
@@ -262,12 +313,12 @@ setTimeout(function(){
 $('.editFood').click(function () {
     $(this).prop('disabled', true);
     $(this).parents('td').find('.saveFood').prop('disabled', false);
-    if(currentWeightGoal - currentWeight <0){
+    if(currentWeightGoal - currentWeight <=0){
 
     $(this).parents('tr').find('td.foodEditableList').each(function() {
       var html = $(this).html();
       var numbers = html.split(" ");
-      var input = $('<select id="myList"><option class="editableColumnsFoodStyle" >EASIER</option><option class="editableColumnsFoodStyle" >MEDIUM</option><option class="editableColumnsFoodStyle" >KINDAHARD</option><option class="editableColumnsFoodStyle" >HARDER</option></select>');
+      var input = $('<select id="myList"><option class="editableColumnsFoodStyle" value="EASIER" >Easier(-250 kcals)</option><option class="editableColumnsFoodStyle" value="MEDIUM">Medium(-500 kcals)</option><option class="editableColumnsFoodStyle" value="KINDAHARD" >Kinda Hard(-750 kcals)</option><option class="editableColumnsFoodStyle" value="HARDER" >Harder(-1,000 kcals)</option></select>');
       input.val(numbers[0]);
       $(this).html(input);
     });
@@ -287,7 +338,7 @@ else{
 }
     
   });
-
+ 
   $('.editNutrition').click(function () {
     $(this).prop('disabled', true);
     $(this).parents('td').find('.saveNutrition').prop('disabled', false);
@@ -307,13 +358,17 @@ else{
             let  id = "nutAmount" + i;
             var html = $(this).html();
             var numbers = html.split(" ");
-            var input = $('<input type="number" id="'+id+'" placeholder="grams" style="height: 85%; width:85%;" />');
-            input.val(numbers[0]);
+            var input = $('<div style="position:relative;margin-bottom:10px;" class="buttonInside"><input style="height:30px;width:100%;padding-left:10px;border-radius: 4px;border:none;outline:none;" class="editableColumnsStyle" id="'+id+'" placeholder="grams" type="text" /><button style="position:absolute; right: 0px; top: 3px;border:none;height:25px;width:25px;border-radius:100%;outline:none;font-weight:bold;" id="showInfo'+i+'" data-toggle="modal" data-target="#nutInfo'+i+'">?</button></div>');
+           // var input = $('<input type="number" id="'+id+'" placeholder="grams" style="height: 85%; width:85%;" />');
+            input.find("#"+id).val(numbers[0]);
             $(this).html(input);
             i++;
 
         }
+        
     });
+    let table = $("#nutrition");
+    disableUsedOptions(table);
 
   });
 
@@ -478,8 +533,8 @@ $("#calculate").validate({
 
   $('.saveFood').click(function () {
       
-    var myList = document.getElementById('myList');
-    var html =myList.options[myList.selectedIndex].text;
+    
+    var html =$("#myList").val();
     console.log("saveFood:"+html);
     
         var xhr = new XMLHttpRequest();
@@ -496,6 +551,7 @@ $("#calculate").validate({
             title: 'Your Goal has been saved!',
             timer: 1500
           });
+          document.getElementById("gainMessage").textContent = null;
     }
     else{
         console.log("Status:"+xhr.status);
@@ -809,6 +865,7 @@ var id =0;
 
  $(this).prop('disabled', true);
    $(this).parents('td').find('.editWeight').prop('disabled', false);
+   document.getElementById("gainMessage").textContent = "Select a new plan!";
 setTimeout(function(){
     getWeightGoals(); 
     getWeightLogs();
@@ -823,6 +880,48 @@ function getWeightProgress(){
     let target = currentWeightGoal - startWeight;
     console.log("target:"+target);
     let remaining = currentWeightGoal - currentWeight;
+    if(currentWeightGoal - startWeight < 0){
+        document.getElementById("carbInfo").textContent = "Since you are on a weight loss program we recommend you eat 50% carbs of your daily intake";
+        let carbgrams = ((0.5* foodgoal)/4).toFixed(0);
+        $("#carbgrams").text(carbgrams+" grams");
+        $("#carbpercent").val(50);
+
+        document.getElementById("fatInfo").textContent = "Since you are on a weight loss program we recommend you eat 20% fats of your daily intake";
+        let fatgrams = ((0.2* foodgoal)/9).toFixed(0);
+        $("#fatgrams").text(fatgrams+" grams");
+        $("#fatpercent").val(20);
+
+        document.getElementById("carbInfo2").textContent = "Since you are on a weight loss program we recommend you eat 50% carbs of your daily intake";
+        let carbgrams2 = ((0.5* foodgoal)/4).toFixed(0);
+        $("#carbgrams2").text(carbgrams2+" grams");
+        $("#carbpercent2").val(50);
+
+        document.getElementById("fatInfo2").textContent = "Since you are on a weight loss program we recommend you eat 20% fats of your daily intake";
+        let fatgrams2 = ((0.2* foodgoal)/9).toFixed(0);
+        $("#fatgrams2").text(fatgrams2+" grams");
+        $("#fatpercent2").val(20);
+     }
+     if(currentWeightGoal - startWeight > 0){
+        document.getElementById("carbInfo").textContent = "Since you are on a weight gain program we recommend you eat 5% carbs of your daily intake";
+        let carbgrams = ((0.65* foodgoal)/4).toFixed(0);
+        $("#carbgrams").text(carbgrams+" grams");
+        $("#carbpercent").val(65);  
+
+        document.getElementById("fatInfo").textContent = "Since you are on a weight gain program we recommend you eat 30% fats of your daily intake";
+        let fatgrams = ((0.30* foodgoal)/9).toFixed(0);
+        $("#fatgrams").text(fatgrams+" grams");
+        $("#fatpercent").val(30);
+
+        document.getElementById("carbInfo2").textContent = "Since you are on a weight gain program we recommend you eat 5% carbs of your daily intake";
+        let carbgrams2 = ((0.65* foodgoal)/4).toFixed(0);
+        $("#carbgrams2").text(carbgrams2+" grams");
+        $("#carbpercent2").val(65);  
+
+        document.getElementById("fatInfo2").textContent = "Since you are on a weight gain program we recommend you eat 30% fats of your daily intake";
+        let fatgrams2 = ((0.30* foodgoal)/9).toFixed(0);
+        $("#fatgrams2").text(fatgrams2+" grams");
+        $("#fatpercent2").val(30);
+    }
     let prog = (((currentWeightGoal - currentWeight)/target)*100).toFixed(2);
     let progress = 100 - prog;
     console.log(progress);
@@ -839,7 +938,6 @@ function getWeightProgress(){
     }
     
     if(target <0 && currentWeight !=0){
-        document.getElementById("gainMessage").textContent = null;
         document.getElementById("progressStatus").textContent = " Current Weight Loss Progress: "+currentWeight+" kg(Lose "+Math.abs(remaining)+" kg)";
         if(progress <=34){
             document.getElementById("red").setAttribute("style","width:"+progress+"%");
@@ -858,6 +956,7 @@ function getWeightProgress(){
             document.getElementById("green").setAttribute("style","width:"+remainder+"%");
             }
             if(remaining >0){
+                document.getElementById("gainMessage").textContent = "You have reached your goal this plan is no longer needed!";
                 document.getElementById("progressStatus").textContent = "You have exceeded your goal! Current weight: "+currentWeight+" kg("+Math.abs(remaining)+" kg less)";
                 document.getElementById("red").setAttribute("style","width:34%");
                 document.getElementById("yellow").setAttribute("style","width:41%");
@@ -865,6 +964,7 @@ function getWeightProgress(){
                 }
 
             if(remaining ===0){
+                document.getElementById("gainMessage").textContent = "You have reached your goal this plan is no longer needed!";
                 document.getElementById("progressStatus").textContent = "Congratulations! You have reached your goal of "+currentWeightGoal+" kg!";
             document.getElementById("red").setAttribute("style","width:34%");
             document.getElementById("yellow").setAttribute("style","width:41%");
@@ -937,6 +1037,124 @@ function getWeightProgress(){
 
   };
 
+
+  // nutrition info section
+  $("#usecarb").mouseup(function(){
+      if($("#nutval2").val()!== "Carbohydrates" ){
+      $("#nutval1").val("Carbohydrates");
+      let amount  = $("#carbgrams").text().split(" ");
+      let nutAmount = amount[0];
+      $("#nutAmount1").val(nutAmount);
+    }
+
+  });
+  $("#useprotein").mouseup(function(){
+    if($("#nutval2").val()!== "Protein" ){
+    $("#nutval1").val("Protein");
+    let amount  = $("#proteingrams").text().split(" ");
+    let nutAmount = amount[0];
+    $("#nutAmount1").val(nutAmount);
+    }
+
+});
+$("#usefiber").mouseup(function(){
+    if($("#nutval2").val()!== "Fiber" ){
+    $("#nutval1").val("Fiber");
+    let amount  = $("#fibergrams").text().split(" ");
+    let nutAmount = amount[0];
+    $("#nutAmount1").val(nutAmount);
+    }
+
+});
+$("#usefat").mouseup(function(){
+    if($("#nutval2").val()!== "Fats" ){
+    $("#nutval1").val("Fats");
+    let amount  = $("#fatgrams").text().split(" ");
+    let nutAmount = amount[0];
+    $("#nutAmount1").val(nutAmount);
+    }
+
+});
+
+
+$("#usecarb2").mouseup(function(){
+    if($("#nutval1").val()!== "Carbohydrates" ){
+    $("#nutval2").val("Carbohydrates");
+    let amount  = $("#carbgrams2").text().split(" ");
+    let nutAmount = amount[0];
+    $("#nutAmount2").val(nutAmount);
+  }
+
+});
+$("#useprotein2").mouseup(function(){
+  if($("#nutval1").val()!== "Protein" ){
+  $("#nutval2").val("Protein");
+  let amount  = $("#proteingrams2").text().split(" ");
+  let nutAmount = amount[0];
+  $("#nutAmount2").val(nutAmount);
+  }
+
+});
+$("#usefiber2").mouseup(function(){
+  if($("#nutval1").val()!== "Fiber" ){
+  $("#nutval2").val("Fiber");
+  let amount  = $("#fibergrams2").text().split(" ");
+  let nutAmount = amount[0];
+  $("#nutAmount2").val(nutAmount);
+  }
+
+});
+$("#usefat2").mouseup(function(){
+  if($("#nutval1").val()!== "Fats" ){
+  $("#nutval2").val("Fats");
+  let amount  = $("#fatgrams2").text().split(" ");
+  let nutAmount = amount[0];
+  $("#nutAmount2").val(nutAmount);
+  }
+
+});
+
+$("#carbpercent").keyup(function(){
+    let percent = $("#carbpercent").val()/100;
+    let grams = ((percent *foodgoal)/4).toFixed(0);
+    $("#carbgrams").text(grams +" grams");
+
+});
+$("#proteinpercent").keyup(function(){
+    let percent = $("#proteinpercent").val();
+    let grams = ((percent * currentWeight)).toFixed(0);
+    $("#proteingrams").text(grams +" grams");
+
+});
+
+$("#fatpercent").keyup(function(){
+    let percent = $("#fatpercent").val()/100;
+    let grams = ((percent *foodgoal)/9).toFixed(0);
+    $("#fatgrams").text(grams +" grams");
+
+});
+
+$("#carbpercent2").keyup(function(){
+    let percent = $("#carbpercent2").val()/100;
+    let grams = ((percent *foodgoal)/4).toFixed(0);
+    $("#carbgrams2").text(grams +" grams");
+
+});
+$("#proteinpercent2").keyup(function(){
+    let percent = $("#proteinpercent2").val();
+    let grams = ((percent * currentWeight)).toFixed(0);
+    $("#proteingrams2").text(grams +" grams");
+
+});
+
+$("#fatpercent2").keyup(function(){
+    let percent = $("#fatpercent2").val()/100;
+    let grams = ((percent *foodgoal)/9).toFixed(0);
+    $("#fatgrams2").text(grams +" grams");
+
+});
+
+
  getProfile(); 
 getDailyActivityGoals();
 getWeightGoals();
@@ -981,5 +1199,26 @@ function formatDate(date){
     let split = date.split("-");
     let formattedDate = split[2]+'-'+split[1]+'-'+split[0];
     return formattedDate;
+}
+
+function disableUsedOptions(table) {
+    selects = table.find("select");
+    selects.on("change", function () {
+        selects = table.find("select");
+        if (selects.length <= 1) return;
+        let selected = [];
+
+        selects.each(function (index, select) {
+            if (select.value !== "") {
+                selected.push(select.value);
+            }
+        });
+        for (var index in selected) {
+            table
+                .find('option[value="' + selected[index] + '"]:not(:selected)')
+                .prop("disabled", true);
+        }
+    });
+    selects.trigger("change");
 }
 

@@ -121,7 +121,7 @@
 
 <div class="container text-center" style="padding-bottom: 30px;">
 <h2 class="text-left">Daily Food Goals(Based on Activity Progress)&nbsp;<i class="fas fa-utensils" style='font-size:50px; color:red;'></i></h2>
-<div class="small text-muted" id="gainMessage" style="color: #FF0000;"></div>
+<h4  id="gainMessage" style="color: #FF0000;"></h4>
 <table class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
@@ -146,7 +146,7 @@
 
 <div class="container text-center">
 <h2 class="text-left">Daily Nutritional Value Goals&nbsp;<i class="fas fa-utensils" style='font-size:50px; color:red;'></i></h2>
-<table class="table table-striped table-bordered">
+<table id="nutrition" class="table table-striped table-bordered">
   <thead class="thead-dark">
     <tr>
       <th scope="col">Nutritional Value 1</th>
@@ -237,6 +237,193 @@
       <div class="modal-footer">
         <button type="button" disabled class="btn btn-success" data-dismiss="modal" id="useThis">Use value</button>
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="nutInfo1" tabindex="-1" role="dialog" aria-labelledby="nutInfoTitle" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="nutInfoTitle">Nutrition Goal Information&nbsp;<i class="fas fa-utensils" style='font-size:50px; color:red; padding-bottom:10px;'></i> </h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+         <div class="container-fluid">
+           <h2>Carbohydrates&nbsp;<i style="color: rgb(218, 218, 45);" class="fas fa-bread-slice"></i></h2>
+           <p>The dietary guidelines recommend that carbs provide 45 to 65 percent of your daily calorie intake.</p>
+           <h5 id ="carbInfo" style="color: rgb(218, 218, 45);">hi</h5>
+           <form>
+             <div class="form-row justify-content-between">
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Percentage:</label>
+             <input type="number" class="form-control" id="carbpercent">
+             </div>
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Value in Grams:</label>
+             <h4 id="carbgrams" style="color: rgb(218, 218, 45);">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;" id="usecarb" data-dismiss="modal">Use this</button>
+                 
+          </div>
+          <div class="container-fluid">
+           <h2>Protein&nbsp;<i style="color: rgb(94, 228, 94);" class="fas fa-egg"></i></h2>
+           <p>A common recommendation for gaining muscle is 2.2 grams of protein per kg. Other scientists have estimated the protein needs to be a minimum of 1.6 grams per kg.</p>  
+           <p>Most official nutrition organizations recommend a fairly modest protein intake. The DRI (Dietary Reference Intake) is 0.8 grams of protein per kilogram of body weight</p>      
+          
+           <h5 id ="proteinInfo" style="color: rgb(94, 228, 94);">hi</h5>
+           <form>
+             <div class="form-row justify-content-between">
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold; ">grams per kg:</label>
+             <input type="number" class="form-control" id="proteinpercent">
+             </div>
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold; ">Value in Grams:</label>
+             <h4 id="proteingrams" style="color:rgb(94, 228, 94);">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;"id="useprotein" data-dismiss="modal" >Use this</button>
+          </div>  
+          <div class="container-fluid">
+           <h2>Fiber&nbsp;<i style="color: purple;" class="fas fa-utensils"></i></h2>
+           <p>Total dietary fiber intake should be 25 to 30 grams a day from food, not supplements.This number may also depend on age or sex: women under 50: 21 to 25 grams per day. men under 50: 30 to 38 grams per day.</p>  
+           <h5 id ="fiberInfo" style="color: purple;">hi</h5>  
+           <form>
+             <div class="form-row justify-content-between">
+             
+             <div class="form-group col-sm-8">
+             <label style="font-weight:bold;">Value Recommended in Grams:</label>
+             <h4 id="fibergrams" style="color: purple;">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;" id="usefiber" data-dismiss="modal">Use this</button>
+                     
+          </div>  
+          <div class="container-fluid">
+           <h2>Fat&nbsp;<i style="color: #FF0000;" class="fas fa-utensils"></i></h2>
+           <p>The dietary reference intake (DRI) for fat in adults is 20% to 35% of total calories from fat.</p> 
+           <h5 id ="fatInfo" style="color: #FF0000;">hi</h5>   
+           <form>
+             <div class="form-row justify-content-between">
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Percentage:</label>
+             <input type="number" class="form-control" id="fatpercent">
+             </div>
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Value in Grams:</label>
+             <h4 id="fatgrams" style="color: #FF0000;">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;" id="usefat" data-dismiss="modal">Use this</button>
+                     
+          </div>       
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="nutInfo2" tabindex="-1" role="dialog" aria-labelledby="nutInfo2Title" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="nutInfo2Title">Nutrition Goal Information&nbsp;<i class="fas fa-utensils" style='font-size:50px; color:red; padding-bottom:10px;'></i> </h2>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+       <div class="modal-body">
+         <div class="container-fluid">
+           <h2>Carbohydrates&nbsp;<i style="color: rgb(218, 218, 45);" class="fas fa-bread-slice"></i></h2>
+           <p>The dietary guidelines recommend that carbs provide 45 to 65 percent of your daily calorie intake.</p>
+           <h5 id ="carbInfo2" style="color: rgb(218, 218, 45);">hi</h5>
+           <form>
+             <div class="form-row justify-content-between">
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Percentage:</label>
+             <input type="number" class="form-control" id="carbpercent2">
+             </div>
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Value in Grams:</label>
+             <h4 id="carbgrams2" style="color: rgb(218, 218, 45);">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;" id="usecarb2" data-dismiss="modal">Use this</button>
+                 
+          </div>
+          <div class="container-fluid">
+           <h2>Protein&nbsp;<i style="color: rgb(94, 228, 94);" class="fas fa-egg"></i></h2>
+           <p>A common recommendation for gaining muscle is 2.2 grams of protein per kg. Other scientists have estimated the protein needs to be a minimum of 1.6 grams per kg.</p>  
+           <p>Most official nutrition organizations recommend a fairly modest protein intake. The DRI (Dietary Reference Intake) is 0.8 grams of protein per kilogram of body weight</p>      
+          
+           <h5 id ="proteinInfo2" style="color: rgb(94, 228, 94);">hi</h5>
+           <form>
+             <div class="form-row justify-content-between">
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold; ">grams per kg:</label>
+             <input type="number" class="form-control" id="proteinpercent2">
+             </div>
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold; ">Value in Grams:</label>
+             <h4 id="proteingrams2" style="color:rgb(94, 228, 94);">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;"id="useprotein2" data-dismiss="modal" >Use this</button>
+          </div>  
+          <div class="container-fluid">
+           <h2>Fiber&nbsp;<i style="color: purple;" class="fas fa-utensils"></i></h2>
+           <p>Total dietary fiber intake should be 25 to 30 grams a day from food, not supplements.This number may also depend on age or sex: women under 50: 21 to 25 grams per day. men under 50: 30 to 38 grams per day.</p>  
+           <h5 id ="fiberInfo2" style="color: purple;">hi</h5>  
+           <form>
+             <div class="form-row justify-content-between">
+             
+             <div class="form-group col-sm-8">
+             <label style="font-weight:bold;">Value Recommended in Grams:</label>
+             <h4 id="fibergrams2" style="color: purple;">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;" id="usefiber2" data-dismiss="modal">Use this</button>
+                     
+          </div>  
+          <div class="container-fluid">
+           <h2>Fat&nbsp;<i style="color: #FF0000;" class="fas fa-utensils"></i></h2>
+           <p>The dietary reference intake (DRI) for fat in adults is 20% to 35% of total calories from fat.</p> 
+           <h5 id ="fatInfo2" style="color: #FF0000;">hi</h5>   
+           <form>
+             <div class="form-row justify-content-between">
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Percentage:</label>
+             <input type="number" class="form-control" id="fatpercent2">
+             </div>
+             <div class="form-group col-sm-5">
+             <label style="font-weight:bold;">Value in Grams:</label>
+             <h4 id="fatgrams2" style="color: #FF0000;">26 grams</h4>
+             </div>
+             </div>
+             </form>
+             <button class="btn btn-success" style="height: 40px;" id="usefat2" data-dismiss="modal">Use this</button>
+                     
+          </div>       
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
       
       </div>
     </div>

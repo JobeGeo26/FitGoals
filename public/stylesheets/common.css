@@ -13,6 +13,10 @@ h4{
   font-family:'Oswald',sans-serif;
 }
 
+h5{
+  font-family:'Oswald',sans-serif;
+}
+
 h3{
   font-family:'Oswald',sans-serif;
 }
@@ -112,6 +116,15 @@ canvas#minutesGauge {
 }
 
 canvas#distanceGauge {
+  width: 100% !important;
+  height: auto !important;
+}
+canvas#nutrition1Gauge {
+  width: 100% !important;
+  height: auto !important;
+}
+
+canvas#nutrition2Gauge {
   width: 100% !important;
   height: auto !important;
 }

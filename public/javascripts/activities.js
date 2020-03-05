@@ -381,7 +381,7 @@ xhr.send();
 
     function resetCanvas(){
         $('#caloriesBurned').remove(); // this is my <canvas> element
-        $('#graphContainer').append('<canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="caloriesBurned" width="1000vw" height="450vh"></canvas>');
+        $('#graphContainer').append('<canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="caloriesBurned" width="1400vw" height="475vh" style="border: 2px white; border-radius: 20px"></canvas>');
        
       };
 

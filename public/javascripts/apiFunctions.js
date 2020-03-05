@@ -1,6 +1,8 @@
  $(document).ready(function(){
  var access_token = getCookie("token");
  var userId =localStorage.getItem("userId");
+ console.log(userId); 
+ console.log(access_token);
  $(function(){
     var url = window.location.href;
     if(url.includes("access_token")){

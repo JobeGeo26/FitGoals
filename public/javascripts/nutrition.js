@@ -391,6 +391,136 @@ $(document).ready(function(){
         };
         xhr.send();
     }
+    function getNutritionGoals(protein,carbs, fiber, fat){
+        var xhr = new XMLHttpRequest();
+        xhr.responseType = 'json';
+        xhr.open('GET', '/getNutritionGoals/'+userId);
+        xhr.setRequestHeader("Content-type", "application/json");
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log(xhr.response);
+                let data = xhr.response;
+                if(data.nutrition_val1 === "Protein"){
+                    let progress = ((protein/data.nutrition_amount1)*100).toFixed(2);
+                    getNutrition1Gauge(progress);
+                    document.getElementById("nutrition1").textContent = "Daily Protein Goal";
+                    document.getElementById("nutrition1Status").textContent = protein+"/"+data.nutrition_amount1+ " grams consumed";
+                }
+                if(data.nutrition_val1 === "Carbohydrates"){
+                    let progress = ((carbs/data.nutrition_amount1)*100).toFixed(2);
+                    getNutrition1Gauge(progress);
+                    document.getElementById("nutrition1").textContent = "Daily Carbs Goal";
+                    document.getElementById("nutrition1Status").textContent = carbs+"/"+data.nutrition_amount1+ " grams consumed";
+              
+                }
+                if(data.nutrition_val1 === "Fiber"){
+                    let progress = ((fiber/data.nutrition_amount1)*100).toFixed(2);
+                    getNutrition1Gauge(progress);
+                    document.getElementById("nutrition1").textContent = "Daily Fiber Goal";
+                    document.getElementById("nutrition1Status").textContent = fiber+"/"+data.nutrition_amount1+ " grams consumed";
+              
+                }
+                if(data.nutrition_val1 === "Fats"){
+                    let progress = ((fat/data.nutrition_amount1)*100).toFixed(2);
+                    getNutrition1Gauge(progress);
+                    document.getElementById("nutrition1").textContent = "Daily Fats Goal";
+                    document.getElementById("nutrition1Status").textContent = fat+"/"+data.nutrition_amount1+ " grams consumed";
+              
+                }
+
+
+                if(data.nutrition_val2 === "Protein"){
+                    let progress = ((protein/data.nutrition_amount2)*100).toFixed(2);
+                    getNutrition2Gauge(progress);
+                    document.getElementById("nutrition2").textContent = "Daily Protein Goal";
+                    document.getElementById("nutrition2Status").textContent = protein+"/"+data.nutrition_amount2+ " grams consumed";
+              
+                }
+                if(data.nutrition_val2 === "Carbohydrates"){
+                    let progress = ((carbs/data.nutrition_amount2)*100).toFixed(2);
+                    getNutrition2Gauge(progress);
+                    document.getElementById("nutrition2").textContent = "Daily Carbs Goal";
+                    document.getElementById("nutrition2Status").textContent = carbs+"/"+data.nutrition_amount2+ " grams consumed";
+              
+                }
+                if(data.nutrition_val2 === "Fiber"){
+                    let progress = ((fiber/data.nutrition_amount2)*100).toFixed(2);
+                    getNutrition2Gauge(progress);
+                    document.getElementById("nutrition2").textContent = "Daily Fiber Goal";
+                    document.getElementById("nutrition2Status").textContent = fiber+"/"+data.nutrition_amount2+ " grams consumed";
+              
+                }
+                if(data.nutrition_val2 === "Fats"){
+                    let progress = ((fat/data.nutrition_amount2)*100).toFixed(2);
+                    getNutrition2Gauge(progress);
+                    document.getElementById("nutrition2").textContent = "Daily Fats Goal";
+                    document.getElementById("nutrition2Status").textContent = fat+"/"+data.nutrition_amount2+ " grams consumed";
+              
+                }
+                  
+            }
+            else{
+                console.log("Status:"+xhr.status);
+            }
+        };
+    
+        xhr.send();
+    
+      };
+
+    function getNutrition1Gauge(value){
+        var opts = {
+            angle: 0.15, // The span of the gauge arc
+            lineWidth: 0.44, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+              length: 0.6, // // Relative to gauge radius
+              strokeWidth: 0.035, // The thickness
+              color: '#000000' // Fill color
+            },
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#CF3E3E',   // Colors
+            colorStop: 'yellow',    // just experiment with them
+            strokeColor: '#E0E0E0',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+            
+          };
+          var target = document.getElementById('nutrition1Gauge'); // your canvas element
+          var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+          gauge.maxValue = 100; // set max gauge value
+          gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+          gauge.animationSpeed = 32; // set animation speed (32 is default value)
+          gauge.set(value); // set actual value
+    }
+
+    function getNutrition2Gauge(value){
+        var opts = {
+            angle: 0.15, // The span of the gauge arc
+            lineWidth: 0.44, // The line thickness
+            radiusScale: 1, // Relative radius
+            pointer: {
+              length: 0.6, // // Relative to gauge radius
+              strokeWidth: 0.035, // The thickness
+              color: '#000000' // Fill color
+            },
+            limitMax: false,     // If false, max value increases automatically if value > maxValue
+            limitMin: false,     // If true, the min value of the gauge will be fixed
+            colorStart: '#CF3E3E',   // Colors
+            colorStop: '#FF0000',    // just experiment with them
+            strokeColor: '#E0E0E0',  // to see which ones work best for you
+            generateGradient: true,
+            highDpiSupport: true,     // High resolution support
+            
+          };
+          var target = document.getElementById('nutrition2Gauge'); // your canvas element
+          var gauge = new Gauge(target).setOptions(opts); // create sexy gauge!
+          gauge.maxValue = 100; // set max gauge value
+          gauge.setMinValue(0);  // Prefer setter over gauge.minValue = 0
+          gauge.animationSpeed = 32; // set animation speed (32 is default value)
+          gauge.set(value); // set actual value
+    }
 
     function getBalanceGauge(value){
 
@@ -429,16 +559,10 @@ $(document).ready(function(){
     }
 
     function getWeeklyCalsIn(){
-        var date= moment();
-        var startOfWeek = date.startOf('isoWeek').format('L');
-        var startOfWeekArray = startOfWeek.split("/");
-        startOfWeek = startOfWeekArray[2]+"-"+startOfWeekArray[0]+ "-"+startOfWeekArray[1];
-var endOfWeek   = date.endOf('isoWeek').format('L');
-var endOfWeekArray = endOfWeek.split("/");
-endOfWeek = endOfWeekArray[2]+"-"+endOfWeekArray[0]+ "-"+endOfWeekArray[1];
+      
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
-        xhr.open('GET', 'https://api.fitbit.com/1/user/-/foods/log/caloriesIn/date/'+startOfWeek+'/'+endOfWeek+'.json');
+        xhr.open('GET', 'https://api.fitbit.com/1/user/-/foods/log/caloriesIn/date/today/7d.json');
         xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
         xhr.onload = function () {
             if (xhr.status === 200) {
@@ -467,7 +591,7 @@ endOfWeek = endOfWeekArray[2]+"-"+endOfWeekArray[0]+ "-"+endOfWeekArray[1];
 
     function resetCanvas(){
         $('#caloriesIn').remove(); // this is my <canvas> element
-        $('#graphContainer').append('<canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="caloriesIn" width="1000vw" height="450vh"></canvas>');
+        $('#graphContainer').append(' <canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="caloriesIn" width="1400vw" height="475vh" style="border: 2px white; border-radius: 20px"></canvas>');
        
       };
 
@@ -601,6 +725,12 @@ endOfWeek = endOfWeekArray[2]+"-"+endOfWeekArray[0]+ "-"+endOfWeekArray[1];
                 console.log(data);
                 calsInGoal = data.goals.calories;
                 currIn = data.summary.calories;
+                let prot = data.summary.protein;
+                let carbs = data.summary.carbs;
+                let fib = data.summary.fiber;
+                let fats = data.summary.fat;
+                getNutritionGoals(prot,carbs,fib,fats);
+
                 
                 for(var i =data.foods.length-1 ; i>=0; i--){
                     let tableRef = document.getElementById('nutritionLog').getElementsByTagName('tbody')[0];
@@ -1253,7 +1383,6 @@ getFoodGoals();
     getNutritionLogs();
     getUnits();
     getFavouriteFoods();
-   
     setTimeout(function(){
         getWeeklyCalsIn();
         getBalance();
