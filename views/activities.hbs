@@ -8,11 +8,11 @@
 <link rel="stylesheet" type="text/css" href="../stylesheets/common.css"/>
 <script src="../javascripts/activities.js"></script>
 <div class="container text-center">
-        <h1 class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12">Activities Breakdown&nbsp;<i class="fas fa-chart-line" style='font-size:80px; color: #FF0000;'></i></h1 class="">
+        <h1 class="col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">Activities Breakdown&nbsp;<i class="fas fa-chart-line" style='font-size:80px; color: #FF0000;'></i></h1 class="">
 </div>
 <div class="container" style="padding-bottom: 50px;" id="graphContainer">
 
-        <canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="caloriesBurned" width="1400vw" height="475vh" style="border: 2px white; border-radius: 20px"></canvas>
+        <canvas  id="caloriesBurned" width="400" height="210" style="border: 2px white; border-radius: 20px"></canvas>
 </div>
 <hr>
 
@@ -38,7 +38,7 @@
 </div>
 </div>
 <hr>
-<div class="container" style="padding-bottom: 30px;">
+<div class="container" style="padding-bottom: 10px;">
   <div id="accordion">
 
   <div class="card" style="border-radius:5px">
@@ -51,13 +51,39 @@
       <div class="card-body">
         Did you know you are always burning calories throughout the day, even without activities! This is because of your Basal
         Metabolic Rate (BMR). Your BMR (Basal Metabolic Rate) is an estimate of how many calories your body burns at rest. It represents the minimum amount of energy needed to keep your body functioning, including breathing and keeping your heart beating. Your BMR uses up about two-thirds of your daily calories.<br><br>
-        <h5 id="bmr" style="font-family:'Oswald',sans-serif;"></h4>
+        <h5 id="bmr" style="font-family:'Oswald',sans-serif;"></h5>
       </div>
     </div>
   </div>
   </div>
 </div>
 
+<div class="container" style="padding-bottom: 25px;">
+  <div id="accordion1">
+
+  <div class="card" style="border-radius:5px">
+    <div class="card-header" style="background-color: #343a40; border-radius:5px">
+      <a class="card-link" data-toggle="collapse" href="#collapseTwo " style="color: white;">
+        Your Current Trends and Personal Recommendations!
+      </a>
+    </div>
+    <div id="collapseTwo" class="collapse" data-parent="#accordion1">
+      <div class="card-body" id="cardbody">
+         <h3 style="font-family:'Oswald',sans-serif;">Current Activity Trends&nbsp;<i class="fas fa-chart-line" style='font-size:40px; color: #FF0000;'></i></h3>
+         <div>According to your current trend in activities to achieve your goal, we can see your top two productive days of the week so far in this month are:</div><br>
+         <div id="trend" style="font-family:'Oswald',sans-serif;"></div>
+         <div id="monthNum" style="font-family:'Oswald',sans-serif;"></div><br>
+          <h3 style="font-family:'Oswald',sans-serif;">Activities Recommendations&nbsp;<i class="fas fa-running" style='font-size:40px; color: #FF0000;'></i></h3>
+          <h5 style="font-family:'Oswald',sans-serif;">How active do I need to be with my favourite activities?</h5>
+          <div id="activityRec"></div><br>
+          <h5 style="font-family:'Oswald',sans-serif;">Try Different Activities!</h5>
+       
+      </div>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
 
 <div class="container text-center" style="padding-bottom: 30px;">
 <h2 class="text-left">Daily Activity Logs&nbsp;<i class="fas fa-pen" style='font-size:50px; color:yellow;'></i></h2>
@@ -116,19 +142,19 @@
                          
                         <div id="passError" class="error col-sm-12"></div>
                         
-                         <div class="form-group col-6">
+                         <div class="form-group col-5">
                            <button  type="button" class=" btn btn-outline-success" id="saveActivity">Save</button>
                         </div>
-                         <div class="form-group col-sm-1.5">
+                         <div class="form-group col-1.5">
                         <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#ManageFaveActivities">
                         Favourites</button>
                        </div>
-                        <div class="form-group col-sm-2">
+                        <div class="form-group col-2">
                         <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#createActivity">
                        Log New</button>
                        </div>
-                        <div class="form-group col-2">
-                          <label>Required fields *</label>
+                        <div class="form-group col-2.5">
+                          <label>* Required fields</label>
                         
                         </div>
                     </div>

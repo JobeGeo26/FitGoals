@@ -213,7 +213,7 @@ var myChart = new Chart(ctx, {
     },
     
     options: {
-        responsive: false,
+        responsive: true,
         title: {
             display: true,
             text: title,
@@ -244,7 +244,8 @@ var myChart = new Chart(ctx, {
             }],
             yAxes: [{
                 ticks: {
-                    fontColor: 'white'
+                    fontColor: 'white',
+                    beginAtZero: true
                     
                 },
                 gridLines: {
@@ -292,6 +293,14 @@ function getStepProgress(){
             console.log(currentStepcount);
             let progress = ((currentStepcount/stepgoals) *100).toFixed(2);
             document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: "+ progress+"%";
+            if(progress >= 100){
+                document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: 100%";
+                Swal.fire({
+                    icon: 'success',
+                    title: 'You have reached your step count goal!',
+                    timer: 1500
+                  });
+            }
             document.getElementById("goal").textContent =  stepgoals+" steps";
            moveProgressBar(progress);
               },1000 );

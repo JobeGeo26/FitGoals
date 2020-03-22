@@ -23,7 +23,7 @@ $(document).ready(function(){
             
                 const timeValues = intradayArray.map(entries => entries.time);
             
-                let title = "Intraday Heart rate graph"
+                let title = "Today's Heart rate graph"
                 createLineChart(timeValues,hrValues,title);
                 }
                 
@@ -100,7 +100,7 @@ var myChart = new Chart(ctx, {
     },
     
     options: {
-        responsive: false,
+        responsive: true,
         title: {
             display: true,
             text: title,

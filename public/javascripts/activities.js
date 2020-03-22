@@ -1,12 +1,13 @@
 $(document).ready(function(){
     var access_token = getCookie("token");
     var calsBurnedGoal;
-    var currDistance;
+    var currDistance = 0;
     var currActiveMins;
     var distGoal;
     var minsGoal;
     var currBurned;
     var activitiesMap = new Map();
+    var metvalMap = new Map();
     var totalCals = 0;
     var totalDist= 0;
     var totalDuration = 0;
@@ -52,7 +53,9 @@ else{
             if (xhr.status === 200) {
                 const data = xhr.response;
                 console.log(data);
+                if(data.foodPlan !== undefined){
                 intensity = data.foodPlan.intensity;
+                }
                 
             }
             else{
@@ -83,7 +86,7 @@ else{
            else{
                day = d
            }
-        let baseDate = +year+'-'+month+'-'+day;
+        let baseDate = year+'-'+month+'-'+day;
         console.log(baseDate);
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
@@ -103,19 +106,19 @@ else{
             }
                if(intensity === "EASIER"){
 
-                if(balance === -250){
+                if(balance <= -200 && balance >=-300){
                     getBalanceGauge(150);
-                    document.getElementById("balStatus").textContent = "Goal Caloric deficit met: 250 kcal"
+                    document.getElementById("balStatus").textContent = "Caloric deficit goal met: 250 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
                 }
-                if(balance < -250){
+                if(balance < -300){
                     getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 250 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
                 }
-                if(balance >-250){
+                if(balance >-200){
                     getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 250 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
@@ -124,20 +127,20 @@ else{
                
                if(intensity === "MEDIUM"){
 
-                if(balance === -500){
+                if(balance <= -450 && balance >= -550){
                     getBalanceGauge(150);
-                    document.getElementById("balStatus").textContent = "Goal Caloric deficit met: 500 kcal"
+                    document.getElementById("balStatus").textContent = "Caloric deficit goal met: 500 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
                 }
-                if(balance < -500){
+                if(balance < -550){
                     getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 500 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
 
                 }
-                if(balance >-500){
+                if(balance > -450){
                     getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 500 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
@@ -146,20 +149,20 @@ else{
                }
                if(intensity === "KINDAHARD"){
 
-                if(balance === -750){
+                if(balance <= -700 && balance >= -800){
                     getBalanceGauge(150);
-                    document.getElementById("balStatus").textContent = "Goal Caloric deficit met: 750 kcal"
+                    document.getElementById("balStatus").textContent = "Caloric deficit goal met: 750 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
                 }
-                if(balance < -750){
+                if(balance < -800){
                     getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 750 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
 
                 }
-                if(balance >-750){
+                if(balance > -700){
                     getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 750 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
@@ -169,14 +172,14 @@ else{
                }
                if(intensity === "HARDER"){
 
-                if(balance === -1000){
+                if(balance <= -950 && balance >= -1050){
                     getBalanceGauge(150);
-                    document.getElementById("balStatus").textContent = "Goal Caloric deficit met: 1,000 kcal"
+                    document.getElementById("balStatus").textContent = "Caloric deficit goal met: 1,000 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
 
 
                 }
-                if(balance < -1000){
+                if(balance < -1050){
                     getBalanceGauge(250);
                     document.getElementById("balStatus").textContent = "Over Caloric deficit goal: 1,000 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
@@ -184,7 +187,7 @@ else{
 
 
                 }
-                if(balance >-1000){
+                if(balance > -950){
                     getBalanceGauge(50);
                     document.getElementById("balStatus").textContent = "Under Caloric deficit goal: 1,000 kcal"
                     document.getElementById("inVsOut").textContent = currIn +" kcals in VS "+currBurned+" kcals out";
@@ -192,6 +195,8 @@ else{
 
                 }
                }
+
+
 
 
 
@@ -381,7 +386,7 @@ xhr.send();
 
     function resetCanvas(){
         $('#caloriesBurned').remove(); // this is my <canvas> element
-        $('#graphContainer').append('<canvas class="col-10 col-sm-10 col-md-10 col-lg-10 col-xl-12" id="caloriesBurned" width="1400vw" height="475vh" style="border: 2px white; border-radius: 20px"></canvas>');
+        $('#graphContainer').append('<canvas id="caloriesBurned" width="400" height="210" style="border: 2px white; border-radius: 20px"></canvas>');
        
       };
 
@@ -407,7 +412,7 @@ xhr.send();
         },
         
         options: {
-            responsive: false,
+            responsive: true,
             title: {
                 display: true,
                 text: title,
@@ -438,7 +443,8 @@ xhr.send();
                 }],
                 yAxes: [{
                     ticks: {
-                        fontColor: 'white'
+                        fontColor: 'white',
+                        beginAtZero: true
                         
                     },
                     gridLines: {
@@ -523,13 +529,28 @@ xhr.send();
                 currActiveMins = data.summary.veryActiveMinutes;
                document.getElementById("minStatus").textContent = currActiveMins+"/"+minsGoal+" mins completed!"
                document.getElementById("bmr").textContent = "Today you have burned "+data.summary.caloriesBMR +" kcals so far due to your BMR!";
-              
-                if(data.summary.distances[0].activity === "total"){
+              for(var z = 0; z < data.summary.distances.length; z++ ){
+                if(data.summary.distances[z].activity === "total"){
                 currDistance = data.summary.distances[0].distance;
                 }
+            }
                 document.getElementById("distStatus").textContent = currDistance+"/"+distGoal+" km completed!"
                  distProgress = ((currDistance/distGoal)*100).toFixed(2);
                  minsProgress = ((currActiveMins/minsGoal)*100).toFixed(2);
+                 if( distProgress >= 100){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'You have reached your Distance Goal!',
+                        timer: 1500
+                      });
+                 }
+                 if( minsProgress >= 100){
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'You have reached your Active Minutes Goal!',
+                        timer: 1500
+                      });
+                 }
                 
                 for(var i =data.activities.length-1 ; i>=0; i--){
                     let tableRef = document.getElementById('activityLog').getElementsByTagName('tbody')[0];
@@ -604,6 +625,7 @@ xhr.send();
             console.log("prog"+minsProgress+distProgress)
             getActiveMinsGauge(minsProgress);
             getDistanceGauge(distProgress);
+            analyseActivityLevel();
                 },1700);
       
     
@@ -659,6 +681,13 @@ xhr.send();
         let remaining = calsBurnedGoal - currBurned;
         let progress = (currBurned/calsBurnedGoal).toFixed(2)*100;
         console.log(progress);
+        if(progress >= 100){
+            Swal.fire({
+                icon: 'success',
+                title: 'You have reached your Calories Burned Goal!',
+                timer: 1500
+              });
+        }
         document.getElementById("goal").textContent =  calsBurnedGoal+" kcal";
         if(currBurned ===0){
             document.getElementById("progressStatus").textContent ="N/A please ensure an activity log and goal exists for progress";
@@ -711,7 +740,7 @@ xhr.send();
     
     }
 
-    function getActivities(){
+    function getActivities(metvalues, names){
         
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
@@ -734,6 +763,12 @@ xhr.send();
                             for(var x = 0; x < activities.activityLevels.length ; x++){
                                 let activityLevels = activities.activityLevels[x];
                                 let levelName = activityLevels.name;
+                                let metvalue = activityLevels.mets;
+                                if(categoryName.includes("Sports and Workouts")){
+                                if(metvalues.includes(metvalue)){
+                                    metvalMap.set(activityName+"-"+levelName,metvalue);
+                                }
+                            }
                                 document.getElementById("logActivity").append(new Option(activityName+"-"+levelName, activityLevels.id));
                         
                                 document.getElementById("hosting-activities").append(new Option(activityName+"-"+levelName));
@@ -742,12 +777,19 @@ xhr.send();
                                 activitiesMap.set(activityName+"-"+levelName,activityLevels.id);
                              //   console.log("activitylevel:"+ activityLevels.id)
                             }
-
+                            
                         }
+                        
                         
                        
                         else{
                         //console.log(activities);
+                        let metvalue = activities.mets;
+                        if(categoryName.includes("Sports and Workouts")){
+                        if(metvalues.includes(metvalue)){
+                            metvalMap.set(activityName,metvalue);
+                        }
+                    }
                         document.getElementById("logActivity").append(new Option(activityName, activities.id));
                         document.getElementById("hosting-activities").append(new Option(activityName));
             
@@ -768,15 +810,26 @@ xhr.send();
                                     for(var z=0; z< activs.activityLevels.length; z++){
                                         let activLevels = activs.activityLevels[z];
                                         let lvlName = activLevels.name;
+                                        let metvalue = activLevels.mets;
+                                        if(categoryName.includes("Sports and Workouts")){
+                                        if(metvalues.includes(metvalue)){
+                                            metvalMap.set(activsName+"-"+lvlName,metvalue);
+                                        }
+                                    }
                                         document.getElementById("logActivity").append(new Option(activsName+"-"+lvlName, activLevels.id));
                                         document.getElementById("hosting-activities").append(new Option(activsName+"-"+lvlName));
             
                                         activitiesMap.set(activsName+"-"+lvlName,activLevels.id);
-                                        console.log("activleel:"+ activLevels.id)
-                                        console.log("aaacitvitylevels:"+activitiesMap.get(activsName+"-"+lvlName));
+                                       
                                     }
                                 }
                                 else{
+                                    let metvalue = activs.mets;
+                                    if(categoryName.includes("Sports and Workouts")){
+                                    if(metvalues.includes(metvalue)){
+                                        metvalMap.set(activsName,metvalue);
+                                    }
+                                }
                                     document.getElementById("logActivity").append(new Option(activsName, activs.id));
                                     document.getElementById("hosting-activities").append(new Option(activsName));
             
@@ -787,12 +840,15 @@ xhr.send();
 
                         }
                     }
+                    
                     setTimeout(function(){
                         $("#logActivity").append('</optgroup>');
                     },1000);
                     
                     
                 }
+                console.log(metvalMap.entries());
+                getRecommended(metvalMap,metvalues,names);
                 
             }
             else {
@@ -801,6 +857,91 @@ xhr.send();
         };
         xhr.send();
         
+
+
+    }
+
+    function getRecommended(metvalMap, metvalues, names){
+        var xhr = new XMLHttpRequest();
+        xhr.responseType= 'json';
+        xhr.open('GET', 'https://api.fitbit.com/1/user/-/profile.json');
+        xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
+       xhr.onload = function () {
+    if (xhr.status === 200) {
+        const data = xhr.response;
+        console.log(data);
+        let gender = data.user.gender;
+        let height = data.user.height;
+        let weight = data.user.weight;
+        let age = data.user.age;
+        if(gender === "MALE"){
+            let BMR =  ((10 * weight) + (6.25 * height) - (5* age)  + 5).toFixed(0);
+            let remaining = calsBurnedGoal - BMR;
+            console.log(remaining);
+            if(metvalues.length === 0){
+                $("#activityRec").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A, Save Favourite Activities Below</h5></div></div></div></div>');
+            }
+            for(var j =0; j < metvalues.length; j++){
+                let calsperhour = (BMR*metvalues[j]*(60/1440)+1).toFixed(0);
+                let timeInHours=((remaining+75.33333)/calsperhour).toFixed(2);
+                console.log("time"+timeInHours,calsperhour,remaining);
+                let mins = (timeInHours *60).toFixed(0);
+                console.log("time"+mins)
+                $("#activityRec").append('<div>To reach your Calories Burned Goal, you can do '+mins+' mins of '+names[j]+' today.</div>')
+                if(j !== metvalues.length-1){
+                    
+                    $("#activityRec").append('<div style="font-family:Oswald,sans-serif;">OR</div>');
+                }
+
+
+
+
+            }
+
+        }
+        else{
+            let BMR =  (10 * weight) + (6.25 * height) - (5* age) - 161;
+            let remaining = calsBurnedGoal - BMR;
+            console.log(remaining);
+            console.log(metvalues)
+            for(var j =0; j < metvalues.length; j++){
+                let calsperhour = (BMR*metvalues[j]*(60/1440)+1).toFixed(0);
+                let timeInHours=((remaining+75.33333)/calsperhour).toFixed(2);
+                console.log("time"+timeInHours,calsperhour,remaining);
+                let mins = (timeInHours *60).toFixed(0);
+                console.log("time"+mins)
+                
+                $("#activityRec").append('<div>To reach your Calories Burned Goal, you can do '+mins+' mins of '+names[j]+' today.</div>')
+                if(j !== metvalues.length-1){
+                    
+                    $("#activityRec").append('<div style="font-family:Oswald,sans-serif;">OR</div>');
+                }
+            }
+        }
+        if(metvalues.length === 0){
+           $("#cardbody").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A, Save Favourite Activities Below</h5></div></div></div></div>');
+     
+        }
+        for(var i = 0; i < metvalues.length; i++){
+           
+            let nameKeys = [...metvalMap.entries()].filter(({ 1: v }) => v === metvalues[i])  .map(([k]) => k);
+            shuffle(nameKeys);
+            var index = nameKeys.indexOf(names[i]);
+ 
+           if (index > -1) {
+              nameKeys.splice(index, 1);
+           }
+           console.log(names[i])
+            console.log(nameKeys)
+            $("#cardbody").append('<h5 style="font-family:Oswald,sans-serif;">Instead of '+names[i]+' why not try these activities with similar intensity:</h5>')
+            $("#cardbody").append('<div class="row"><div class="col-sm-4"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[0]+'</h5></div></div></div><div class="col-sm-4"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[1]+'</h5></div></div></div><div class="col-sm-4"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[2]+'</h5></div></div></div></div><br>')
+        }
+    }
+    else{
+        console.log("status:"+xhr.status)
+    }
+    };
+    xhr.send();
 
 
     }
@@ -1151,10 +1292,13 @@ xhr.send();
             if (xhr.status === 200) {
                 const data = xhr.response;
                 console.log(data);
+                var metvalues =[];
+                var names = [];
                 $("#logActivity").append('<optgroup label="Favourite Activities">');
                 for(var i = 0; i< data.length; i++){
 
                     let act = data[i];
+                    metvalues.push(act.mets);
                     let actString = "";
                     if(act.description !== ""){
                      actString = act.name+"/"+act.description;
@@ -1162,6 +1306,7 @@ xhr.send();
                     else{
                         actString = act.name;
                     }
+                    names.push(actString);
                     activitiesMap.set(actString,act.activityId);
                     document.getElementById("logActivity").append(new Option(actString, act.activityId));
                         
@@ -1171,6 +1316,7 @@ xhr.send();
                    
                     
                 }
+                console.log(metvalues);
                 setTimeout(function(){
                     $("#logActivity").append('</optgroup>');
                    
@@ -1178,7 +1324,7 @@ xhr.send();
 
 
                 },1000);
-                getActivities();
+                getActivities(metvalues,names);
                 
                 
             }
@@ -1190,18 +1336,164 @@ xhr.send();
 
     }
 
+    function analyseActivityLevel(){
+        var analyseMap = new Map();
+        $("#trend").empty();
+        let date = new Date();
+            let year = date.getFullYear();
+            let mnth = (date.getMonth()+1);
+            var month="";
+            if(mnth <10){
+             month = "0"+mnth;
+            }
+            else{
+                month = mnth
+            }
+            let d = date.getDate();
+            var day ="";
+            if(d <10){
+                day = "0"+d;
+               }
+               else{
+                   day = d
+               }
+            let baseDate = year+'-'+month+'-'+day;
+            let startDate = year+'-'+month+'-01';
+    
+        var xhr = new XMLHttpRequest();
+        
+        xhr.responseType = 'json';
+        xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities/calories/date/'+startDate+'/'+baseDate+'.json');
+        xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                const data = xhr.response;  
+                let weekly = data["activities-calories"];
+                let counter = 0;
+                for(var j =0; j < weekly.length; j++){
+                    console.log(weekly[j].value,weekly[j].dateTime);
+                    analyseMap.set(weekly[j].dateTime,weekly[j].value*1);
+                    if(weekly[j].value >= calsBurnedGoal){
+                        counter++;
+                    }
+
+                   
+                }
+                $("#monthNum").text("You have achieved your Calories Burned goal "+ counter+"/"+weekly.length+ " times this month so far.");
+                a = [];
+                for(var x of analyseMap) 
+                  a.push(x);
+                
+                a.sort(function(x, y) {
+                  return y[1] - x[1];
+                });  
+                  
+                sorted = new Map(a);
+                console.log(sorted.entries());
+                let days = Array.from(sorted.keys());
+                console.log(days); 
+                let topDays = (days.length*0.33333).toFixed(0);
+                if(topDays === 0 || topDays ===1){
+                    $("#trend").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A not enough days to determine best active days</h5></div></div></div></div>');
+
+                }
+                else{
+                let monCounter = 0;
+                let tueCounter = 0;
+                let wedCounter = 0;
+                let thurCounter = 0;
+                let friCounter = 0;
+                let satCounter = 0;
+                let sunCounter = 0;
+               // console.log("topdays"+ topDays);
+                for(var j = 0 ; j < topDays; j++){
+                    console.log(days[j]);
+                    var date = new Date(days[j]);
+                    console.log(date);
+                    let day = date.getDay();
+                    if(day === 0){
+                        sunCounter ++;
+
+                    }
+                    if(day === 1){
+                        monCounter ++;
+
+                    }
+                    if(day === 2){
+                        tueCounter ++;
+
+                    }
+                    if(day === 3){
+                        wedCounter ++;
+
+                    }
+                    if(day === 4){
+                        thurCounter ++;
+
+                    }
+                    if(day === 5){
+                        friCounter ++;
+
+                    }
+                    if(day === 6){
+                        satCounter ++;
+
+                    }
+                
+                }
+                console.log(monCounter,tueCounter,wedCounter,thurCounter,friCounter,satCounter,sunCounter);
+                var dayArray = [monCounter,tueCounter,wedCounter,thurCounter,friCounter,satCounter,sunCounter];
+            if(identical(dayArray)){
+                $("#trend").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">You are equally productive each day!</h5></div></div></div></div>');
+
+            }
+            else{
+                var numbers = {
+                    Monday:  monCounter,
+                    Tueday:  tueCounter,
+                    Wednesday: wedCounter,
+                    Thursday: thurCounter,
+                    Friday: friCounter,
+                    Saturday: satCounter,
+                    Sunday: sunCounter
+                  };
+                  
+                  
+                    var keys = Object.keys(numbers);
+                    keys.sort(function(a,b){
+                      return numbers[b] - numbers[a];
+                    })
+                     let topTwo = keys.slice(0,2);
+                     $("#trend").append('<div class="row"><div class="col-sm-3"> <div class="card"><div class="card-body"><h5 class="card-title">1. '+topTwo[0]+'</h5></div></div></div><div class="col-sm-3"> <div class="card h-80"><div class="card-body"><h5 class="card-title">2. '+topTwo[1]+'</h5></div></div></div></div>');
+
+                }
+                
+                }
+            }
+            else {
+                console.log("Status: " + xhr.status);
+              }
+        };
+        xhr.send();
+    
+    }
+
 getFoodGoals();
    
     getActivityLogs();
     getFavouriteActivities();
+   
     
     setTimeout(function(){
         getWeeklyCalsBurned();
+       
       //  getBalance();
         getActivityProgress();
     },1000);
 
 });
+
+
 
 function msToTime(duration) {
     var milliseconds = parseInt((duration%1000)/100)
@@ -1213,3 +1505,31 @@ function msToTime(duration) {
 
     return hours + " hrs " + minutes + " mins " + seconds + " secs";
 }
+
+function identical(array) {
+    for(var i = 0; i < array.length - 1; i++) {
+        if(array[i] !== array[i+1]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+function shuffle(array) {
+    var currIndex = array.length, temporaryValue, randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (0 !== currIndex) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currIndex);
+      currIndex -= 1;
+  
+      // And swap it with the current element.
+      temporaryValue = array[currIndex];
+      array[currIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }

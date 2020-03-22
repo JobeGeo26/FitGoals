@@ -211,10 +211,10 @@ $("#saveBtn").click(function(){
     let dob = formatDate($("#profiledob").val());
     let height = $("#profileHeight").val();
     let weight = $("#profileWeight").val();
-    let start = $("#startDay").val(); 
+    
    // console.log(fname+sname+gender+dob+height+weight+start);
     var param = "fullname="+fname+" "+sname+"&gender="+gender+"&birthday="+dob+"&height="+height
-    +"&weight="+weight+"&startDayOfWeek="+start
+    +"&weight="+weight
 
     var xhr = new XMLHttpRequest();
     xhr.responseType= 'json';
