@@ -1,6 +1,9 @@
 {
   "name": "fitgoalsjsapp",
   "version": "0.0.1",
+  "engines": {
+    "node": "12.14.x"
+  },
   "description": "fitness web app using fitbit api",
   "main": "index.js",
   "scripts": {
@@ -21,4 +24,5 @@
     "sqlite3": "^4.1.1",
     "tail.select": "^0.5.15"
   }
+  
 }
