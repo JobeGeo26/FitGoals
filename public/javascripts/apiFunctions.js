@@ -13,8 +13,8 @@
       setCookie("token", access_token, 60);
       localStorage.setItem("userId",userId);
     }
-
-    if(url === "http://localhost:3000/" || url === "http://localhost:3000/index"){
+    
+    if(url === "https://fit-goals.herokuapp.com/" || url === "https://fit-goals.herokuapp.com/index"){
       if (access_token === "NULL" || access_token === "") {
         document.getElementById("signInLink").setAttribute("href","https://www.fitbit.com/oauth2/authorize?response_type=token&client_id=22BCHF&redirect_uri=http%3A%2F%2Flocalhost%3A3000%2Fhome&scope=activity%20heartrate%20location%20nutrition%20profile%20settings%20sleep%20social%20weight&expires_in=604800&prompt=consent");
       } else {
