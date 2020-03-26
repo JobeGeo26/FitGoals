@@ -9,10 +9,10 @@ $(document).ready(function(){
     var highFatArray = ["Avocados","Cheese","Dark Chocolate","Whole Eggs","Salmon","Trout","Mackerel","Sardines","Herring","Almonds","Walnuts","macadamia nuts","Full fat yoghurt","Extra virgin olive oil","Chia seeds","Coconut oil"];
     var access_token = getCookie("token");
     var userId = localStorage.getItem("userId");
-    var calsInGoal;
+    var calsInGoal = 0;
     var currIn;
     var intensity;
-    var foodgoal;
+    var foodgoal = 0;
     var foodIdMap = new Map();
     var units = new Map();
     var foodAccessMap = new Map();
@@ -253,8 +253,9 @@ $(document).ready(function(){
                 
                 intensity = data.foodPlan.intensity;
                 
-                }
+                } if(data.goals !== undefined){
                 foodgoal = data.goals.calories;
+                }
                 
             }
             else{
