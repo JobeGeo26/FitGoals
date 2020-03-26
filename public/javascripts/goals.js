@@ -378,6 +378,7 @@ else{
   });
 
   $('.saveNutrition').click(function () {
+      document.getElementById("gMessage").textContent = null;
       let nutrition1 = $("#nutval1").val();
       let amount1 = $("#nutAmount1").val();
       let nutrition2 = $("#nutval2").val();
@@ -570,6 +571,7 @@ $("#calculate").validate({
 xhr.send();
 $(this).prop('disabled', true);
 $(this).parents('td').find('.editFood').prop('disabled', false);
+document.getElementById("gMessage").textContent = "Select a new plan!";
 setTimeout(function(){
     getFoodGoals();
 },1000);
