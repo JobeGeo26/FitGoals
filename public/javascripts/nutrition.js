@@ -12,6 +12,7 @@ $(document).ready(function(){
     var calsInGoal;
     var currIn;
     var intensity;
+    var foodgoal;
     var foodIdMap = new Map();
     var units = new Map();
     var foodAccessMap = new Map();
@@ -251,7 +252,9 @@ $(document).ready(function(){
                 if(data.foodPlan !== undefined){
                 
                 intensity = data.foodPlan.intensity;
+                
                 }
+                foodgoal = data.goals.calories;
                 
             }
             else{
@@ -491,8 +494,9 @@ $(document).ready(function(){
                             timer: 1500
                           });
                      }
+                     console.log(foodgoal);
                     
-                    if(data.nutrition_amount1 < 57){
+                    if(data.nutrition_amount1 < (foodgoal * 0.25)){
                     let array = getRandom(lowFatArray,12);
                     console.log(array);
                     $("#cardbody").append('<h5 style="font-family:Oswald,sans-serif;">Here are low fat foods for your fats content goal:</h5>');
@@ -592,7 +596,7 @@ $(document).ready(function(){
                             timer: 1500
                           });
                      }
-                    if(data.nutrition_amount1 < 57){
+                     if(data.nutrition_amount1 < (foodgoal * 0.25)){
                         let array = getRandom(lowFatArray,12);
                         console.log(array);
                         $("#cardbody").append('<h5 style="font-family:Oswald,sans-serif;">Here are low fat foods for your fat content goal:</h5>');
