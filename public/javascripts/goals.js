@@ -185,6 +185,11 @@ function getFoodGoals(){
     };
     xhr.send();
 
+    setTimeout(function(){
+        getWeightProgress();
+
+    },1000);
+
 
 }
 
@@ -1161,10 +1166,7 @@ getWeightGoals();
 getWeightLogs();
 getFoodGoals();
 getNutritionGoals();
-setTimeout(function(){
 
-    getWeightProgress();
-},1000);
 
 });
 
