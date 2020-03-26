@@ -1682,7 +1682,7 @@ xhr.send();
             console.log(days); 
             let topDays = days.length;
             if(topDays === 0 || topDays ===1){
-                $("#trend").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A not enough days to determine best active days</h5></div></div></div></div>');
+                $("#trend").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A not enough days to determine best disciplined days</h5></div></div></div></div>');
 
             }
             else{
