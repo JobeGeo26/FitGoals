@@ -68,25 +68,31 @@ $(document).ready(function(){
 
         }
 
-        if(data.user.age < 50 && data.user.gender === "MALE"){
+        if(data.user.age <= 50 && data.user.gender === "MALE"){
             $("#fiberInfo").text("According to your age and sex we recommend you pick a middle value of 34 grams");
             $("#fibergrams").text(34 +" grams");
             $("#fiberInfo2").text("According to your age and sex we recommend you pick a middle value of 34 grams");
             $("#fibergrams2").text(34 +" grams");
         }
 
-        if(data.user.age < 50 && data.user.gender === "FEMALE"){
+        if(data.user.age <= 50 && data.user.gender === "FEMALE"){
             $("#fiberInfo").text("According to your age and sex we recommend you pick a middle value of 23 grams");
             $("#fibergrams").text(23 +" grams");
             $("#fiberInfo2").text("According to your age and sex we recommend you pick a middle value of 23 grams");
             $("#fibergrams2").text(23 +" grams");
         }
-        if(data.user.age > 50){
-            $("#fiberInfo").text("According to your age we recommend you pick a value of 25 grams ");
-            $("#fibergrams").text(25 +" grams");
-            $("#fiberInfo2").text("According to your age we recommend you pick a value of 25 grams ");
-            $("#fibergrams2").text(25 +" grams");
+        if(data.user.age > 50 && data.user.gender === "FEMALE"){
+            $("#fiberInfo").text("According to your age and sex we recommend you pick a value of 25 grams ");
+            $("#fibergrams").text(21 +" grams");
+            $("#fiberInfo2").text("According to your age and sex we recommend you pick a value of 25 grams ");
+            $("#fibergrams2").text(21 +" grams");
 
+        }
+        if(data.user.age > 50 && data.user.gender === "MALE"){
+            $("#fiberInfo").text("According to your age and sex we recommend you pick a middle value of 34 grams");
+            $("#fibergrams").text(30 +" grams");
+            $("#fiberInfo2").text("According to your age and sex we recommend you pick a middle value of 34 grams");
+            $("#fibergrams2").text(30 +" grams");
         }
 
         $("#age").val(data.user.age);
