@@ -915,7 +915,7 @@ function getWeightProgress(){
         $("#fatpercent2").val(20);
      }
      if(currentWeightGoal - startWeight > 0){
-        document.getElementById("carbInfo").textContent = "Since you are on a weight gain program we recommend you eat 5% carbs of your daily intake";
+        document.getElementById("carbInfo").textContent = "Since you are on a weight gain program we recommend you eat 65% carbs of your daily intake";
         let carbgrams = ((0.65* foodgoal)/4).toFixed(0);
         $("#carbgrams").text(carbgrams+" grams");
         $("#carbpercent").val(65);  
@@ -925,7 +925,7 @@ function getWeightProgress(){
         $("#fatgrams").text(fatgrams+" grams");
         $("#fatpercent").val(30);
 
-        document.getElementById("carbInfo2").textContent = "Since you are on a weight gain program we recommend you eat 5% carbs of your daily intake";
+        document.getElementById("carbInfo2").textContent = "Since you are on a weight gain program we recommend you eat 65% carbs of your daily intake";
         let carbgrams2 = ((0.65* foodgoal)/4).toFixed(0);
         $("#carbgrams2").text(carbgrams2+" grams");
         $("#carbpercent2").val(65);  
