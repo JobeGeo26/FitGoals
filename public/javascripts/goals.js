@@ -938,6 +938,13 @@ function getWeightProgress(){
     let prog = (((currentWeightGoal - currentWeight)/target)*100).toFixed(2);
     let progress = 100 - prog;
     console.log(progress);
+    if(progress >= 100){
+        Swal.fire({
+            icon: 'success',
+            title: 'Congratulations! Your Weight goal has been reached!',
+            timer: 1500
+          });
+    }
 
     document.getElementById("start").textContent =  startWeight+" kg";
     document.getElementById("goal").textContent =  currentWeightGoal+" kg";

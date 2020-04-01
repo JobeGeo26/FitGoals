@@ -882,8 +882,8 @@ xhr.send();
                 $("#activityRec").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A, Save Favourite Activities Below</h5></div></div></div></div>');
             }
             for(var j =0; j < metvalues.length; j++){
-                let calsperhour = (BMR*metvalues[j]*(60/1440)+1).toFixed(0);
-                let timeInHours=((remaining+75.33333)/calsperhour).toFixed(2);
+                let calsperhour = (BMR*metvalues[j]*(60/1440)).toFixed(0);
+                let timeInHours=((remaining+(BMR/24))/calsperhour).toFixed(2);
                 console.log("time"+timeInHours,calsperhour,remaining);
                 let mins = (timeInHours *60).toFixed(0);
                 console.log("time"+mins)
