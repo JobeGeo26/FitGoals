@@ -140,6 +140,7 @@ function getDailyActivityGoals(){
 }
 
 function getWeightGoals(){
+    return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', 'https://api.fitbit.com/1/user/-/body/log/weight/goal.json');
@@ -153,6 +154,7 @@ function getWeightGoals(){
             document.getElementById("GoalWeight").textContent = data.goal.weight+" kg";
             currentWeightGoal = data.goal.weight;
             startWeight = data.goal.startWeight;
+            resolve();
            
         }
         else{
@@ -160,7 +162,7 @@ function getWeightGoals(){
         }
     };
     xhr.send();
-
+    });
 
 }
 
@@ -191,10 +193,7 @@ function getFoodGoals(){
     };
     xhr.send();
 
-    setTimeout(function(){
-        getWeightProgress();
-
-    },1000);
+    
 
 
 }
@@ -272,17 +271,16 @@ function getWeightLogs(){
                 currentWeight =0;
             }
            
-           
+            getWeightProgress();
+            getFoodGoals();
         }
         else{
             console.log("Status:"+xhr.status);
         }
     };
     xhr.send();
-    setTimeout(function(){
-getWeightProgress();
-    },1000);
-    getFoodGoals();
+    
+   
     
 
 }
@@ -301,6 +299,7 @@ if (xhr.status === 204) {
         title: 'Your Log has been deleted!',
         timer: 1500
       });
+      getWeightLogs(); 
    
 }
 else{
@@ -314,9 +313,7 @@ else{
 };
 xhr.send();
 
-setTimeout(function(){
-    getWeightLogs(); 
-},1500);
+
 
 
 }
@@ -564,6 +561,10 @@ $("#calculate").validate({
             timer: 1500
           });
           document.getElementById("gainMessage").textContent = null;
+          $(".saveFood").prop('disabled', true);
+$(".saveFood").parents('td').find('.editFood').prop('disabled', false);
+document.getElementById("gMessage").textContent = "Select a new plan!";
+getFoodGoals();
     }
     else{
         console.log("Status:"+xhr.status);
@@ -575,12 +576,7 @@ $("#calculate").validate({
     }
 };
 xhr.send();
-$(this).prop('disabled', true);
-$(this).parents('td').find('.editFood').prop('disabled', false);
-document.getElementById("gMessage").textContent = "Select a new plan!";
-setTimeout(function(){
-    getFoodGoals();
-},1000);
+
 
 
 });
@@ -667,6 +663,8 @@ $('.editActivity').click(function () {
             title: 'Your Log has been saved!',
             timer: 1500
           });
+          $('.submitLog').parents('div').find('.logtextDate , .logtext').val("");
+          getWeightLogs();
        
     }
     else{
@@ -679,11 +677,8 @@ $('.editActivity').click(function () {
     }
 };
 xhr.send();
-$(this).parents('div').find('.logtextDate , .logtext').val("");
-setTimeout(function(){
 
-    getWeightLogs(); 
-},1500);
+
 
   });
 
@@ -705,6 +700,9 @@ setTimeout(function(){
                 title: 'Your Goal has been saved!',
                 timer: 1500
               });
+              $(".editActivity").prop('disabled', false);
+              $(".saveActivity").prop('disabled', true);
+              getDailyActivityGoals(); 
            
         }
         else{
@@ -735,6 +733,9 @@ setTimeout(function(){
             title: 'Your Goal has been saved!',
             timer: 1500
           });
+          $(".editActivity").prop('disabled', false);
+          $(".saveActivity").prop('disabled', true);
+          getDailyActivityGoals(); 
        
     }
     else{
@@ -765,6 +766,9 @@ if (xhr.status === 200) {
         title: 'Your Goal has been saved!',
         timer: 1500
       });
+      $(".editActivity").prop('disabled', false);
+      $(".saveActivity").prop('disabled', true);
+      getDailyActivityGoals(); 
    
 }
 else{
@@ -795,6 +799,9 @@ if (xhr.status === 200) {
         title: 'Your Goal has been saved!',
         timer: 1500
       });
+      $(".editActivity").prop('disabled', false);
+      $(".saveActivity").prop('disabled', true);
+      getDailyActivityGoals(); 
    
 }
 else{
@@ -808,12 +815,10 @@ else{
 };
 xhr.send();
 }
-   $(".editActivity").prop('disabled', false);
-   $(".saveActivity").prop('disabled', true);
   
-setTimeout(function(){
-    getDailyActivityGoals(); 
-},1500);
+
+   
+
   });
 
 
@@ -862,7 +867,11 @@ var id =0;
             title: 'Your goal has been saved!',
             timer: 1500
           });
- 
+          $('.saveWeight').prop('disabled', true);
+   $('.saveWeight').parents('td').find('.editWeight').prop('disabled', false);
+   document.getElementById("gainMessage").textContent = "Select a new plan!";
+   getWeightGoals().then(getWeightLogs); 
+  
        }
      else{
 
@@ -876,13 +885,7 @@ var id =0;
  }
  xhr.send();
 
- $(this).prop('disabled', true);
-   $(this).parents('td').find('.editWeight').prop('disabled', false);
-   document.getElementById("gainMessage").textContent = "Select a new plan!";
-setTimeout(function(){
-    getWeightGoals(); 
-    getWeightLogs();
-},1500);
+ 
 });
 
 function getWeightProgress(){
@@ -1177,8 +1180,8 @@ $("#fatpercent2").keyup(function(){
 
  getProfile(); 
 getDailyActivityGoals();
-getWeightGoals();
-getWeightLogs();
+getWeightGoals().then(getWeightLogs)
+
 getFoodGoals();
 getNutritionGoals();
 

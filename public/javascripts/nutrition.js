@@ -898,6 +898,7 @@ $(document).ready(function(){
            }
         let baseDate = +year+'-'+month+'-'+day;
         console.log(baseDate);
+        return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
         xhr.open('GET', 'https://api.fitbit.com/1/user/-/foods/log/date/'+baseDate+'.json');
@@ -986,7 +987,36 @@ $(document).ready(function(){
                     
                 }
                
-               
+                
+                    let tableRef = document.getElementById('nutritionLog').getElementsByTagName('tbody')[0];
+                    var newRow   = tableRef.insertRow();
+                    newRow.style.fontWeight = 'bold';
+                    newRow.insertCell(0);
+                    newRow.insertCell(1);
+                    newRow.insertCell(2);
+                   var total =  newRow.insertCell(3);
+                
+                    var calories  = newRow.insertCell(4);
+                    var caloriesText  = document.createTextNode(totalCals+" kcal");
+                    calories.appendChild(caloriesText);
+                    var carb  = newRow.insertCell(5);
+                    var carbText  = document.createTextNode(totalCarbs.toFixed(2)+" g");
+                    carb.appendChild(carbText);
+                    var fat  = newRow.insertCell(6);
+                    var fatText  = document.createTextNode(totalFats.toFixed(2)+" g");
+                    fat.appendChild(fatText);
+                    var fiber  = newRow.insertCell(7);
+                    var fiberText  = document.createTextNode(totalFibers.toFixed(2)+" g");
+                    fiber.appendChild(fiberText);
+                    var protein  = newRow.insertCell(8);
+                    var proteinText  = document.createTextNode(totalProtein.toFixed(2)+" g");
+                    protein.appendChild(proteinText);
+                    newRow.insertCell(9);
+                   getNutritionProgress();
+                   getBalance();
+                   analyseNutritionTrend();
+                   resolve();
+                       
             }
             else{
                 console.log("Status:"+xhr.status);
@@ -994,38 +1024,10 @@ $(document).ready(function(){
         };
         xhr.send();
        
+    });
 
 
-
-        setTimeout(function(){
-            let tableRef = document.getElementById('nutritionLog').getElementsByTagName('tbody')[0];
-            var newRow   = tableRef.insertRow();
-            newRow.style.fontWeight = 'bold';
-            newRow.insertCell(0);
-            newRow.insertCell(1);
-            newRow.insertCell(2);
-           var total =  newRow.insertCell(3);
-        
-            var calories  = newRow.insertCell(4);
-            var caloriesText  = document.createTextNode(totalCals+" kcal");
-            calories.appendChild(caloriesText);
-            var carb  = newRow.insertCell(5);
-            var carbText  = document.createTextNode(totalCarbs.toFixed(2)+" g");
-            carb.appendChild(carbText);
-            var fat  = newRow.insertCell(6);
-            var fatText  = document.createTextNode(totalFats.toFixed(2)+" g");
-            fat.appendChild(fatText);
-            var fiber  = newRow.insertCell(7);
-            var fiberText  = document.createTextNode(totalFibers.toFixed(2)+" g");
-            fiber.appendChild(fiberText);
-            var protein  = newRow.insertCell(8);
-            var proteinText  = document.createTextNode(totalProtein.toFixed(2)+" g");
-            protein.appendChild(proteinText);
-            newRow.insertCell(9);
-           getNutritionProgress();
-           getBalance();
-           analyseNutritionTrend();
-               },1000);
+       
       
     
     }
@@ -1044,6 +1046,16 @@ $(document).ready(function(){
             title: 'Your Log has been deleted!',
             timer: 1500
           });
+          
+            totalCals= 0;
+            totalCarbs =0;
+            totalFats = 0;
+            totalFibers = 0;
+            totalProtein = 0;
+            resetCanvas();
+            getWeeklyCalsIn();
+            getNutritionLogs(); 
+     
        
     }
     else{
@@ -1057,16 +1069,7 @@ $(document).ready(function(){
     };
     xhr.send();
     
-    setTimeout(function(){
-        totalCals= 0;
-        totalCarbs =0;
-        totalFats = 0;
-        totalFibers = 0;
-        totalProtein = 0;
-        resetCanvas();
-        getWeeklyCalsIn();
-        getNutritionLogs(); 
-    },1500);
+   
     
     }
 
@@ -1141,6 +1144,8 @@ $(document).ready(function(){
     }
 
     function getFavouriteFoods(){
+        $("#logFood").empty();
+        $("#logFood").append('<option style="display:none;"></option>');
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
         xhr.open('GET', 'https://api.fitbit.com/1/user/-/foods/log/favorite.json');
@@ -1187,7 +1192,7 @@ $(document).ready(function(){
                 }
                 setTimeout(function(){
                     $("#logFood").append('</optgroup>');
-                    $("#logFood").append('<optgroup label="Previous Results">');
+                    $("#logFood").append('<optgroup label="Search Results">');
 
 
                 },1000);
@@ -1484,6 +1489,23 @@ xhr.send();
             title: 'Your Log has been saved!',
             timer: 1500
           });
+          $("#logForm").find('#logFood , #logType , #logAmount , #logBrand , #logCals , #logUnit').val("");
+$("#logUnit").empty();
+$("#logFood").val( null).trigger('change');
+$("#logFave").val($("#logFave option:first").val());
+$('#logFave').prop('disabled', false);
+totalCals= 0;
+    totalCarbs =0;
+    totalFats = 0;
+    totalFibers = 0;
+    totalProtein = 0;
+
+    
+    resetCanvas();
+    getWeeklyCalsIn();
+    getNutritionLogs();
+    getFavouriteFoods();
+
        
     }
     else{
@@ -1497,22 +1519,7 @@ xhr.send();
 };
 xhr.send();
 wasClicked++;
-$("#logForm").find('#logFood , #logType , #logAmount , #logBrand , #logCals , #logUnit').val("");
-$("#logUnit").empty();
-$("#logFood").val( null).trigger('change');
-$("#logFave").val($("#logFave option:first").val());
-$('#logFave').prop('disabled', false);
-totalCals= 0;
-    totalCarbs =0;
-    totalFats = 0;
-    totalFibers = 0;
-    totalProtein = 0;
-setTimeout(function(){
-    
-    resetCanvas();
-    getWeeklyCalsIn();
-    getNutritionLogs();
-},1500);
+
         }
 
 
@@ -1704,7 +1711,7 @@ xhr.send();
             let days = Array.from(sorted.keys());
             console.log(days); 
             let topDays = days.length;
-            if(topDays === 0 || topDays ===1){
+            if(topDays == 0 || topDays == 1){
                 $("#trend").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A not enough days to determine best disciplined days</h5></div></div></div></div>');
 
             }
@@ -1792,15 +1799,16 @@ xhr.send();
 
 
 getFoodGoals();
-    getNutritionLogs();
-    getUnits();
-    getFavouriteFoods();
-    setTimeout(function(){
+    getNutritionLogs().then(function(){
         getWeeklyCalsIn();
         getBalance();
         getNutritionProgress();
-
-    },1000);
+    });
+    getUnits();
+    getFavouriteFoods();
+    
+    
+   
     
 
 });

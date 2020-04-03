@@ -5,7 +5,10 @@ $(document).ready(function(){
     var currActiveMins;
     var distGoal;
     var minsGoal;
+    var activeCals;
     var currBurned;
+    var metvalues =[];
+    var names = [];
     var activitiesMap = new Map();
     var metvalMap = new Map();
     var totalCals = 0;
@@ -514,6 +517,7 @@ xhr.send();
         console.log(baseDate);
         let distProgress =0;
         let minsProgress = 0;
+        return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
         xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities/date/'+baseDate+'.json');
@@ -527,6 +531,7 @@ xhr.send();
                 distGoal = data.goals.distance;
                 minsGoal = data.goals.activeMinutes;
                 currActiveMins = data.summary.veryActiveMinutes;
+                activeCals = currBurned - data.summary.caloriesBMR;
                document.getElementById("minStatus").textContent = currActiveMins+"/"+minsGoal+" mins completed!"
                document.getElementById("bmr").textContent = "Today you have burned "+data.summary.caloriesBMR +" kcals so far due to your BMR!";
               for(var z = 0; z < data.summary.distances.length; z++ ){
@@ -595,7 +600,30 @@ xhr.send();
     
                     
                 }
-               
+                getRecommended(metvalMap,metvalues,names);
+                let tableRef = document.getElementById('activityLog').getElementsByTagName('tbody')[0];
+                var newRow   = tableRef.insertRow();
+                newRow.style.fontWeight = 'bold';
+                newRow.insertCell(0);
+                newRow.insertCell(1);
+                newRow.insertCell(2);
+                var distance = newRow.insertCell(3)
+                var distanceText= document.createTextNode(totalDist+" km");
+                distance.appendChild(distanceText);
+               var duration = newRow.insertCell(4)
+               var durationText= document.createTextNode(msToTime(totalDuration));
+               duration.appendChild(durationText);
+               var cals = newRow.insertCell(5)
+                var calsText= document.createTextNode(totalCals+" kcal");
+                cals.appendChild(calsText);
+                newRow.insertCell(6);
+                getActivityProgress();
+                getBalance();
+                console.log("prog"+minsProgress+distProgress)
+                getActiveMinsGauge(minsProgress);
+                getDistanceGauge(distProgress);
+                analyseActivityLevel();
+                resolve();
                
             }
             else{
@@ -603,32 +631,8 @@ xhr.send();
             }
         };
         xhr.send();
-        setTimeout(function(){
-            let tableRef = document.getElementById('activityLog').getElementsByTagName('tbody')[0];
-            var newRow   = tableRef.insertRow();
-            newRow.style.fontWeight = 'bold';
-            newRow.insertCell(0);
-            newRow.insertCell(1);
-            newRow.insertCell(2);
-            var distance = newRow.insertCell(3)
-            var distanceText= document.createTextNode(totalDist+" km");
-            distance.appendChild(distanceText);
-           var duration = newRow.insertCell(4)
-           var durationText= document.createTextNode(msToTime(totalDuration));
-           duration.appendChild(durationText);
-           var cals = newRow.insertCell(5)
-            var calsText= document.createTextNode(totalCals+" kcal");
-            cals.appendChild(calsText);
-            newRow.insertCell(6);
-            getActivityProgress();
-            getBalance();
-            console.log("prog"+minsProgress+distProgress)
-            getActiveMinsGauge(minsProgress);
-            getDistanceGauge(distProgress);
-            analyseActivityLevel();
-                },1700);
-      
-    
+       
+        });
     }
 
     function deleteLog(logID){
@@ -645,6 +649,12 @@ xhr.send();
             title: 'Your Log has been deleted!',
             timer: 1500
           });
+          totalCals = 0;
+          totalDist= 0;
+          totalDuration = 0;
+         resetCanvas();
+         getWeeklyCalsBurned();
+         getActivityLogs(); 
        
     }
     else{
@@ -659,14 +669,7 @@ xhr.send();
     };
     xhr.send();
     
-    setTimeout(function(){
-         totalCals = 0;
-         totalDist= 0;
-         totalDuration = 0;
-        resetCanvas();
-        getWeeklyCalsBurned();
-        getActivityLogs(); 
-    },1500);
+   
     
     
     
@@ -848,8 +851,7 @@ xhr.send();
                     
                 }
                 console.log(metvalMap.entries());
-                getRecommended(metvalMap,metvalues,names);
-                
+               
             }
             else {
                 console.log("Status: " + xhr.status);
@@ -862,6 +864,7 @@ xhr.send();
     }
 
     function getRecommended(metvalMap, metvalues, names){
+        $("#cardbody").empty();
         var xhr = new XMLHttpRequest();
         xhr.responseType= 'json';
         xhr.open('GET', 'https://api.fitbit.com/1/user/-/profile.json');
@@ -876,11 +879,18 @@ xhr.send();
         let age = data.user.age;
         if(gender === "MALE"){
             let BMR =  ((10 * weight) + (6.25 * height) - (5* age)  + 5).toFixed(0);
-            let remaining = calsBurnedGoal - BMR;
+            let remaining = calsBurnedGoal - BMR-activeCals;
+            if(remaining < 0){
+                $("#activityRec").empty();
+                $("#activityRec").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">No need for any more activities today!</h5></div></div></div></div>');
+            }
+            if(remaining > 0){
+                $("#activityRec").empty();
             console.log(remaining);
             if(metvalues.length === 0){
                 $("#activityRec").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A, Save Favourite Activities Below</h5></div></div></div></div>');
             }
+            console.log(metvalues.length, metvalues);
             for(var j =0; j < metvalues.length; j++){
                 let calsperhour = (BMR*metvalues[j]*(60/1440)).toFixed(0);
                 let timeInHours=((remaining+(BMR/24))/calsperhour).toFixed(2);
@@ -897,13 +907,24 @@ xhr.send();
 
 
             }
+        }
 
         }
         else{
             let BMR =  (10 * weight) + (6.25 * height) - (5* age) - 161;
-            let remaining = calsBurnedGoal - BMR;
+            let remaining = calsBurnedGoal - BMR-activityCalories;
             console.log(remaining);
-            console.log(metvalues)
+            if(remaining < 0){
+                $("#activityRec").empty();
+                $("#activityRec").append('<div>No need for more activities today!</div>');
+            }
+            if(remaining > 0){
+                $("#activityRec").empty();
+            console.log(remaining);
+            if(metvalues.length === 0){
+                $("#activityRec").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A, Save Favourite Activities Below</h5></div></div></div></div>');
+            }
+            
             for(var j =0; j < metvalues.length; j++){
                 let calsperhour = (BMR*metvalues[j]*(60/1440)+1).toFixed(0);
                 let timeInHours=((remaining+75.33333)/calsperhour).toFixed(2);
@@ -918,10 +939,13 @@ xhr.send();
                 }
             }
         }
+        
+        }
         if(metvalues.length === 0){
            $("#cardbody").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A, Save Favourite Activities Below</h5></div></div></div></div>');
      
         }
+        console.log(metvalues)
         for(var i = 0; i < metvalues.length; i++){
            
             let nameKeys = [...metvalMap.entries()].filter(({ 1: v }) => v === metvalues[i])  .map(([k]) => k);
@@ -933,8 +957,18 @@ xhr.send();
            }
            console.log(names[i])
             console.log(nameKeys)
+            if(nameKeys.length >= 3){
             $("#cardbody").append('<h5 style="font-family:Oswald,sans-serif;">Instead of '+names[i]+' why not try these activities with similar intensity:</h5>')
             $("#cardbody").append('<div class="row"><div class="col-sm-4"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[0]+'</h5></div></div></div><div class="col-sm-4"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[1]+'</h5></div></div></div><div class="col-sm-4"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[2]+'</h5></div></div></div></div><br>')
+            }
+            if(nameKeys.length == 2){
+                $("#cardbody").append('<h5 style="font-family:Oswald,sans-serif;">Instead of '+names[i]+' why not try these activities with similar intensity:</h5>')
+                $("#cardbody").append('<div class="row"><div class="col-sm-6"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[0]+'</h5></div></div></div><div class="col-sm-6"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[1]+'</h5></div></div></div></div><br>')
+                }
+                if(nameKeys.length == 1){
+                    $("#cardbody").append('<h5 style="font-family:Oswald,sans-serif;">Instead of '+names[i]+' why not try these activities with similar intensity:</h5>')
+                    $("#cardbody").append('<div class="row"><div class="col-sm-6"> <div class="card h-100"><div class="card-body"><h5 class="card-title">'+nameKeys[0]+'</h5></div></div></div></div><br>')
+                    }
         }
     }
     else{
@@ -1172,6 +1206,17 @@ xhr.send();
             title: 'Your Log has been saved!',
             timer: 1500
           });
+
+          $("#logForm").find('#logStartTime , #logDuration , #logCals , #logDist').val("");
+$("#logActivity").val( null).trigger('change');
+ totalCals = 0;
+ totalDist= 0;
+ totalDuration = 0;
+
+    resetCanvas();
+    getWeeklyCalsBurned();
+    getActivityLogs();
+
        
     }
     else{
@@ -1185,16 +1230,7 @@ xhr.send();
 };
 xhr.send();
 wasClicked++;
-$("#logForm").find('#logStartTime , #logDuration , #logCals , #logDist').val("");
-$("#logActivity").val( null).trigger('change');
- totalCals = 0;
- totalDist= 0;
- totalDuration = 0;
-setTimeout(function(){
-    resetCanvas();
-    getWeeklyCalsBurned();
-    getActivityLogs();
-},1500);
+
         }
 
     });
@@ -1283,7 +1319,10 @@ xhr.send();
 
 
     function getFavouriteActivities(){
+        metvalues = [];
+        names = [];
         $("#logActivity").append('<option style="display:none;"></option>');
+        return new Promise(function(resolve, reject) {
         var xhr = new XMLHttpRequest();
         xhr.responseType = 'json';
         xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities/favorite.json');
@@ -1292,8 +1331,6 @@ xhr.send();
             if (xhr.status === 200) {
                 const data = xhr.response;
                 console.log(data);
-                var metvalues =[];
-                var names = [];
                 $("#logActivity").append('<optgroup label="Favourite Activities">');
                 for(var i = 0; i< data.length; i++){
 
@@ -1325,7 +1362,7 @@ xhr.send();
 
                 },1000);
                 getActivities(metvalues,names);
-                
+                resolve();
                 
             }
             else {
@@ -1333,6 +1370,7 @@ xhr.send();
               }
         };
         xhr.send();
+    });
 
     }
 
@@ -1393,7 +1431,7 @@ xhr.send();
                 let days = Array.from(sorted.keys());
                 console.log(days); 
                 let topDays = (days.length*0.33333).toFixed(0);
-                if(topDays === 0 || topDays ===1){
+                if(topDays ==  0 || topDays == 1){
                     $("#trend").append('<div class="row"><div class="col-sm-6"> <div class="card"><div class="card-body"><h5 class="card-title">N/A not enough days to determine best active days</h5></div></div></div></div>');
 
                 }
@@ -1479,17 +1517,15 @@ xhr.send();
     }
 
 getFoodGoals();
-   
-    getActivityLogs();
-    getFavouriteActivities();
+getFavouriteActivities().then(getActivityLogs).then(function(){
+    getWeeklyCalsBurned();
+    getActivityProgress();
+});
+    
+    
    
     
-    setTimeout(function(){
-        getWeeklyCalsBurned();
-       
-      //  getBalance();
-        getActivityProgress();
-    },1000);
+    
 
 });
 

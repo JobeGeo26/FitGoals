@@ -229,7 +229,7 @@ if (xhr.status === 200) {
         title: 'Your details have been saved!',
         timer: 1500
       });
-    
+      getProfile();
 
    
 }
@@ -245,9 +245,7 @@ else{
 xhr.send();
 
 
-setTimeout(function(){
-    getProfile();
-},1000);
+
         }
 
 

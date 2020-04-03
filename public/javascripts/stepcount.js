@@ -5,6 +5,7 @@ $(document).ready(function(){
     var currentDistance =0;
     
  function getStepCountData(){
+    return new Promise(function(resolve, reject) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities/steps/date/today/1w.json');
@@ -28,6 +29,7 @@ $(document).ready(function(){
                 document.getElementById("stepcounter").textContent = currentStepcount + " steps";
                 document.getElementById("todaySteps").textContent = "Steps: "+currentStepcount;
 
+                resolve();
                 
                 }
         }
@@ -36,6 +38,7 @@ $(document).ready(function(){
           }
     };
     xhr.send();
+});
 };
 
 
@@ -157,39 +160,7 @@ function getFloorCountData(){
     };
     xhr.send();
 };
-function getStepCountData(){
-    var xhr = new XMLHttpRequest();
-    xhr.responseType = 'json';
-    xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities/steps/date/today/1w.json');
-    xhr.setRequestHeader("Authorization", 'Bearer ' + access_token);
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            const data = xhr.response;
-            let weekly = data["activities-steps"];
-                if(weekly.length === 0){
-                    createLineChart(null,null,"Not Available, Please wear your tracker and sync data!");
 
-                }
-                else{
-                const stepcount = weekly.map(entries => entries.value);
-            
-                const day = weekly.map(entries => entries.dateTime);
-            
-                let title = "7 day Step Count Comparison graph"
-                createLineChart(day,stepcount,title);
-                currentStepcount = stepcount[stepcount.length-1];
-                document.getElementById("stepcounter").textContent = currentStepcount + " steps";
-                document.getElementById("todaySteps").textContent = "Steps: "+currentStepcount;
-
-                
-                }
-        }
-        else {
-            console.log("Status: " + xhr.status);
-          }
-    };
-    xhr.send();
-};
 
 async function createLineChart( xlabels, ylabels,title ){
     await xlabels;
@@ -279,7 +250,7 @@ var myChart = new Chart(ctx, {
     
 });
 }
-function getStepProgress(){
+ function getStepProgress(){
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
     xhr.open('GET', 'https://api.fitbit.com/1/user/-/activities/goals/daily.json');
@@ -288,22 +259,24 @@ function getStepProgress(){
         if (xhr.status === 200) {
             const data = xhr.response;
              stepgoals= data.goals.steps;
-             getStepCountData();
-             setTimeout(function(){
-            console.log(currentStepcount);
-            let progress = ((currentStepcount/stepgoals) *100).toFixed(2);
-            document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: "+ progress+"%";
-            if(progress >= 100){
-                document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: 100%";
-                Swal.fire({
-                    icon: 'success',
-                    title: 'You have reached your step count goal!',
-                    timer: 1500
-                  });
-            }
-            document.getElementById("goal").textContent =  stepgoals+" steps";
-           moveProgressBar(progress);
-              },1000 );
+              getStepCountData().then(function(){
+                console.log(currentStepcount);
+                let progress = ((currentStepcount/stepgoals) *100).toFixed(2);
+                document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: "+ progress+"%";
+                if(progress >= 100){
+                    document.getElementById("progressStatus").textContent = "Daily Step Count Goal Progress: 100%";
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'You have reached your step count goal!',
+                        timer: 1500
+                      });
+                }
+                document.getElementById("goal").textContent =  stepgoals+" steps";
+               moveProgressBar(progress);
+              });
+             
+            
+           
            
         }
         else{
